@@ -3,6 +3,7 @@ import useApi from "../../../hooks/useApi";
 import styled from "styled-components";
 import { Typography } from "@material-ui/core";
 import NotEnrollment from "../../../components/Payment/NotEnrollment";
+import SelectTickets from "../../../components/Payment/SelectTickets";
 
 export default function Payment() {
   const [enrollmentInfo, setEnrollmentInfo] = useState("");
@@ -18,7 +19,7 @@ export default function Payment() {
       <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
 
       {!enrollmentInfo ? 
-        <NotEnrollment /> : "lala"  
+        <NotEnrollment /> : <SelectTickets />  
       }
     </>
   );
