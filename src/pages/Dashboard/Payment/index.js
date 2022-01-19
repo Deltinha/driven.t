@@ -11,7 +11,8 @@ export default function Payment() {
 
   useEffect(() => {
     enrollment.getPersonalInformations()
-      .then(res => setEnrollmentInfo(res.data));
+      .then(res => setEnrollmentInfo(res.data))
+      .catch(err => console.log(err));
   }, []);
 
   return (
