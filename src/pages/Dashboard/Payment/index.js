@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import useApi from "../../../hooks/useApi";
 import styled from "styled-components";
 import { Typography } from "@material-ui/core";
-import NotEnrollment from "../../../components/Payment/NotEnrollment";
+import ForbidText from "../../../components/ForbidText";
 import SelectTickets from "../../../components/Payment/SelectTickets";
 
 export default function Payment() {
@@ -20,7 +20,8 @@ export default function Payment() {
       <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
 
       {!enrollmentInfo ? 
-        <NotEnrollment /> : <SelectTickets />  
+        <ForbidText>Você precisa completar sua inscrição antes de prosseguir pra escolha de ingresso</ForbidText>
+        : <SelectTickets />  
       }
     </>
   );
