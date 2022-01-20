@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
-export default function NotEnrollment() {
+export default function ForbidText({ children }) {
   return (
     <Div>
-      <InfoText>Você precisa completar sua inscrição antes de prosseguir pra escolha de ingresso.</InfoText>
+      <InfoText>{children}</InfoText>
     </Div>
   );
 }
@@ -20,5 +20,5 @@ const InfoText = styled.p`
   font-size: 20px;
   line-height: 23px;
   text-align: center;
-  width: 440px;
+  width: 550px;
 `;
