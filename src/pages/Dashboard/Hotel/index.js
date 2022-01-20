@@ -5,7 +5,7 @@ import useApi from "../../../hooks/useApi";
 import ForbidText from "../../../components/ForbidText";
 
 export default function Hotel() {
-  const [ticketInfo, setTicketInfo] = useState([]);
+  const [ticketInfo, setTicketInfo] = useState({});
   const { ticket } = useApi();
 
   useEffect(() => {
@@ -21,8 +21,12 @@ export default function Hotel() {
       {
         ticketInfo.hasHotel ?
           <span>COMPONENTE SELECT HOTEL AQUI</span> 
-          : <ForbidText>Sua modalidade de ingresso não inclui hospedagem
-            <br/>Prossiga para a escolha de atividades</ForbidText>
+          : Object.keys(ticketInfo).length === 0 ?
+            <ForbidText>Você precisa ter confirmado pagamento antes de fazer a escolha de hospedagem</ForbidText>
+            : ticketInfo.hasHotel ?
+              <span>HOTEL COMPONENT AQUI</span>
+              : <ForbidText>Sua modalidade de ingresso não inclui hospedagem
+                <br/>Prossiga para a escolha de atividades</ForbidText>
       }
     </>
   );
