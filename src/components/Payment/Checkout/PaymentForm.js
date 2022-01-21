@@ -1,7 +1,8 @@
+
 import styled from "styled-components";
 import Cards from "react-credit-cards";
 import "react-credit-cards/es/styles-compiled.css";
-import Input from "../Form/Input";
+import Input from "../../Form/Input";
 import { ErrorMsg } from "./ErrorMsg";
 
 export default function PaymentForm({ number, setNumber, name, setName, expiry, setExpiry, cvc, setCvc, errors }) {

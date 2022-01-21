@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 import PaymentForm from "./PaymentForm";
-import Button from "../Form/Button";
+import Button from "../../Form/Button";
 import validations from "./FormValidations";
 
 export default function Checkout() {
