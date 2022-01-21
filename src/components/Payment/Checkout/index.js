@@ -19,7 +19,8 @@ export default function Checkout() {
       number: validations.number.isValid(number) ? null : validations.number.message,
       issuer: validations.issuer.isValid(number) ? null : validations.issuer.message,
       name: validations.name.isValid(name) ? null : validations.name.message,
-      expiry: validations.expiry.isValid(expiry) ? null : validations.expiry.message,
+      month: validations.expiry.month.isValid(expiry) ? null : validations.expiry.month.message,
+      expired: validations.expiry.expired.isValid(expiry) ? null : validations.expiry.expired.message,
       cvc: validations.cvc.isValid(cvc) ? null : validations.cvc.message,
     };
     setErrors(verifyErrors);

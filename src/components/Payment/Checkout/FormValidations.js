@@ -5,22 +5,28 @@ const validations = {
   },
   issuer: {
     isValid: (number) => isCardIssuerValid(number.split(" ").join("")),
-    message: "Não reconhecemos essa operadora de cartão",
+    message: "Não trabalhamos com essa operadora de cartão",
   },
   name: {
     isValid: (name) => name.trim().length >= 3,
     message: "Digite um nome válido",
   },
   expiry: {
-    isValid: (expiry) => expiry.split("/")[0] >= 1 && expiry.split("/")[0] <= 12 && expiry.length === 5,
-    message: "Digite uma data válida",
+    month: {
+      isValid: (expiry) => expiry.split("/")[0] >= 1 && expiry.split("/")[0] <= 12 && expiry.length === 5,
+      message: "Digite um mês válido",
+    },
+    expired: {
+      isValid: (expiry) => !isCardExpired(expiry),
+      message: "Esse cartão já venceu"
+    },
   },
   cvc: {
     isValid: (cvc) => cvc.length === 3,
     message: "Digite um código válido",
   },
 };
-  
+
 export default validations;
 
 function isCardIssuerValid(number) {
@@ -41,5 +47,15 @@ function isCardIssuerValid(number) {
     }
   }
 
+  return false;
+}
+
+function isCardExpired(expiry) {
+  const [expiryMonth, expiryYear] = expiry.split("/");
+  const presentYear = new Date().getFullYear();
+  const presentMonth = new Date().getMonth() + 1;
+
+  if (Number(`20${expiryYear}`) < presentYear) return true;
+  if (Number(expiryMonth) < presentMonth) return true;
   return false;
 }

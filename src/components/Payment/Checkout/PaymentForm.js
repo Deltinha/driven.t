@@ -46,7 +46,7 @@ export default function PaymentForm({ number, setNumber, name, setName, expiry, 
               onChange={(event) => setExpiry(event.target.value)}
               required
             />
-            {errors?.expiry && <ErrorMsg>{errors.expiry}</ErrorMsg>}
+            {(errors?.month || errors?.expired) && <ErrorMsg>{errors.month || errors.expired}</ErrorMsg>}
           </div>
           <div>
             <Input
