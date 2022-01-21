@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 import Ticket from "./Ticket";
 
@@ -7,6 +8,12 @@ export default function SelectTickets() {
     { name: "Online", price: 100 }
   ];
 
+  const [selectedItem, setSelectedItem] = useState();
+
+  function handleClick(name) { 
+    selectedItem === name ? setSelectedItem(false) : setSelectedItem(name);
+  }
+
   return (
     <>
       <InfoText>
@@ -15,7 +22,11 @@ export default function SelectTickets() {
 
       <TicketArea>
         {tickets.map(ticket => (
-          <Ticket name={ticket.name} price={ticket.price} />
+          <Ticket  
+            name={ticket.name} 
+            price={ticket.price} 
+            selectTicket={handleClick} 
+            isSelected={selectedItem === ticket.name}/>
         ))}
       </TicketArea>
     </>

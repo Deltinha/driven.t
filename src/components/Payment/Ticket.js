@@ -1,8 +1,9 @@
+import { useState } from "react";
 import styled from "styled-components";
 
-export default function Ticket({ name, price }) {
+export default function Ticket({ name, price, selectTicket, isSelected }) {
   return (
-    <TicketCard>
+    <TicketCard selected={isSelected} onClick={() => selectTicket(name)}>
       <Name>{name}</Name>
       <Price>R$ {price}</Price>
     </TicketCard>
@@ -10,7 +11,8 @@ export default function Ticket({ name, price }) {
 }
 
 const TicketCard = styled.div`
-  border: 1px solid #CECECE;
+  background-color: ${({ selected }) => selected ? "#FFEED2" : "#FFFFFF"};
+  border: ${({ selected }) => selected ? "none" : "1px solid #CECECE"};
   box-sizing: border-box;
   border-radius: 20px;
   width: 145px;
