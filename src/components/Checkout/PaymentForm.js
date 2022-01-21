@@ -2,8 +2,9 @@ import styled from "styled-components";
 import Cards from "react-credit-cards";
 import "react-credit-cards/es/styles-compiled.css";
 import Input from "../Form/Input";
+import { ErrorMsg } from "./ErrorMsg";
 
-export default function PaymentForm({ number, setNumber, name, setName, expiry, setExpiry, cvc, setCvc }) {
+export default function PaymentForm({ number, setNumber, name, setName, expiry, setExpiry, cvc, setCvc, errors }) {
   return (
     <CardBox>
       <Cards
@@ -22,6 +23,8 @@ export default function PaymentForm({ number, setNumber, name, setName, expiry, 
           onChange={(event) => setNumber(event.target.value)}
           required
         />
+        {errors?.number && <ErrorMsg>{errors.number}</ErrorMsg>}
+        {errors?.issuer && <ErrorMsg>{errors.issuer}</ErrorMsg>}
         <Input
           type="text"
           name="name"
@@ -30,25 +33,32 @@ export default function PaymentForm({ number, setNumber, name, setName, expiry, 
           onChange={(event) => setName(event.target.value)}
           required
         />
+        {errors?.name && <ErrorMsg>{errors.name}</ErrorMsg>}
         <LastRow>
-          <Input
-            type="tel"
-            name="expiry"
-            value={expiry}
-            mask={"99/99"}
-            label="Validade"
-            onChange={(event) => setExpiry(event.target.value)}
-            required
-          />
-          <Input
-            type="tel"
-            name="cvc"
-            value={cvc}
-            mask={"999"}
-            label="Código"
-            onChange={(event) => setCvc(event.target.value)}
-            required
-          />
+          <div>
+            <Input
+              type="tel"
+              name="expiry"
+              value={expiry}
+              mask={"99/99"}
+              label="Validade"
+              onChange={(event) => setExpiry(event.target.value)}
+              required
+            />
+            {errors?.expiry && <ErrorMsg>{errors.expiry}</ErrorMsg>}
+          </div>
+          <div>
+            <Input
+              type="tel"
+              name="cvc"
+              value={cvc}
+              mask={"999"}
+              label="Código"
+              onChange={(event) => setCvc(event.target.value)}
+              required
+            />
+            {errors?.cvc && <ErrorMsg>{errors.cvc}</ErrorMsg>}
+          </div>
         </LastRow>
       </CreditCardData>
     </CardBox>
