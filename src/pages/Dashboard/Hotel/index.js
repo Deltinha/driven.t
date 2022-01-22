@@ -3,14 +3,15 @@ import styled from "styled-components";
 import { Typography } from "@material-ui/core";
 import useApi from "../../../hooks/useApi";
 import ForbidText from "../../../components/ForbidText";
-import RoomIcons from "./RoomIcons";
+import Rooms from "./Rooms";
 
 export default function Hotel() {
   const [ticketInfo, setTicketInfo] = useState({});
   const { ticket, hotel } = useApi();
   const [ hotels, setHotels ] = useState([]);
-  const [ selectedHotel, setSelectedHotel ] = useState(true);
+  const [ selectedHotel, setSelectedHotel ] = useState(false);
   const [rooms, setRooms] = useState([]);
+  const [ selectedRoom, setSelectedRoom ] = useState(false);
 
   useEffect(() => {
     ticket.getTicketFromUser()
@@ -60,11 +61,7 @@ export default function Hotel() {
               </HotelOption>
             )}</ContainerHotels>
             <ContainerRooms>
-              {rooms?.map((room) => <Room>{room.number}
-                <RoomOccupation>
-                  <RoomIcons maxOccupation = {room.max_occupation} occupied = {room.occupied} hotelId = {room.hotelId}/>
-                </RoomOccupation>
-              </Room>)}
+              {rooms?.map((room) => <Rooms selectedRoom = {selectedRoom} setSelectedRoom = {setSelectedRoom} room = {room}/> )}
             </ContainerRooms></>)
             : ticketInfo.hasHotel ?
               <span>HOTEL COMPONENT AQUI</span>
@@ -143,23 +140,6 @@ const ContainerRooms = styled.div`
   margin-top: 20px;
   display: flex;
   flex-wrap: wrap;
-`;
-
-const Room = styled.div`
-  width: 190px;
-  height: 45px;
-  border: 1px solid #CECECE;
-  box-sizing: border-box;
-  border-radius: 10px;
-  margin:  0 8px 16px 8px;
-  display: flex;
-  align-items: center;
-  padding: 0 10px;
-  justify-content: space-between;
-`;
-
-const RoomOccupation = styled.div`
-  background: aquamarine;
 `;
 
 /*
