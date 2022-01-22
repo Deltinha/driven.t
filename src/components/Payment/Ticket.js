@@ -9,7 +9,7 @@ export default function Ticket({ name, price }) {
   );
 }
 
-const TicketCard = styled.div`
+export const TicketCard = styled.div`
   border: 1px solid #CECECE;
   box-sizing: border-box;
   border-radius: 20px;
@@ -22,7 +22,7 @@ const TicketCard = styled.div`
   cursor: pointer;
 `;
 
-const Name = styled.p`
+export const Name = styled.p`
   color: #454545;
   font-style: normal;
   font-weight: normal;
@@ -30,7 +30,7 @@ const Name = styled.p`
   line-height: 19px;
 `;
 
-const Price = styled.p`
+export const Price = styled.p`
   font-size: 14px;
   line-height: 16px;
   text-align: center;
