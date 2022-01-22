@@ -8,9 +8,9 @@ import useApi from "../../../hooks/useApi";
 
 export default function SelectTickets() {
   const { ticket } = useApi();
+  const { ticketData, setTicketData } = useContext(TicketContext);
 
   const [ticketsTypes, setTicketsTypes] = useState([]);
-  const { ticketData, setTicketData } = useContext(TicketContext);
   const [selectedItem, setSelectedItem] = useState();
 
   useEffect(() => {
@@ -26,12 +26,14 @@ export default function SelectTickets() {
       setSelectedItem(false);
       setTicketData({
         ...ticketData,
+        enrollmentId: Number(localStorage.getItem("enrollmentId")),
         ticketValue: ""
       });
     } else {
       setSelectedItem(name);
       setTicketData({
         ...ticketData,
+        enrollmentId: Number(localStorage.getItem("enrollmentId")),
         ticketValue: value
       });
     }

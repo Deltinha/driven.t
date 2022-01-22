@@ -60,7 +60,15 @@ export default function PersonalInformationForm() {
 
       enrollment.save(newData).then((res) => {
         const { enrollmentId } = res.data;
-        setTicketData({ enrollmentId });
+        const enrollmentIdStorage = Number(localStorage.getItem("enrollmentId"));
+
+        if (!enrollmentIdStorage) {
+          localStorage.setItem("enrollmentId", enrollmentId);
+          setTicketData({ enrollmentId });
+        } else {
+          setTicketData({ enrollmentIdStorage });
+        }
+
         toast("Salvo com sucesso!");
       }).catch((error) => {
         if (error.response?.data?.details) {
