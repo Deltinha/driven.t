@@ -3,12 +3,14 @@ import styled from "styled-components";
 import { Typography } from "@material-ui/core";
 import useApi from "../../../hooks/useApi";
 import ForbidText from "../../../components/ForbidText";
+import RoomIcons from "./RoomIcons";
 
 export default function Hotel() {
   const [ticketInfo, setTicketInfo] = useState({});
   const { ticket, hotel } = useApi();
   const [ hotels, setHotels ] = useState([]);
   const [ selectedHotel, setSelectedHotel ] = useState(true);
+  const [rooms, setRooms] = useState([]);
 
   useEffect(() => {
     ticket.getTicketFromUser()
@@ -20,11 +22,20 @@ export default function Hotel() {
   useEffect(() => {
     hotel.listAll()
       .then(res => 
-        setHotels(res.data)) // mudar para setHotels
+        setHotels(res.data)) 
       .catch(err => console.log(err));
   }, []);
 
-  console.log(hotels);
+  console.log(hotels); // remover depois
+  console.log(rooms); // remover depois
+
+  function selectAHotel(id) {
+    setSelectedHotel(id);
+    hotel.listRooms(id)
+      .then(res => 
+        setRooms(res.data))
+      .catch(err => console.log(err)); 
+  }
 
   return (
     <>
@@ -33,12 +44,12 @@ export default function Hotel() {
         ticketInfo.hasHotel ?
           <HotelOption>COMPONENTE SELECT HOTEL AQUI</HotelOption> 
           : Object.keys(ticketInfo).length === 0 ?
-            (<Container>{hotels?.map((hotel) => 
+            (<><ContainerHotels>{hotels?.map((hotel) => 
               <HotelOption
                 id={hotel.id}
                 image={hotel.image}
                 selectedHotel={selectedHotel}
-                onClick={() => setSelectedHotel(hotel.id)}
+                onClick={() => selectAHotel(hotel.id)}
               >
                 <div className="image"></div>
                 <p className="title">{hotel.name}</p>
@@ -47,7 +58,14 @@ export default function Hotel() {
                 <p className="subtitles">Vagas disponíveis:</p>
                 <p className="values">{hotel.vacancies}</p>
               </HotelOption>
-            )}</Container>)
+            )}</ContainerHotels>
+            <ContainerRooms>
+              {rooms?.map((room) => <Room>{room.number}
+                <RoomOccupation>
+                  <RoomIcons maxOccupation = {room.max_occupation} occupied = {room.occupied} hotelId = {room.hotelId}/>
+                </RoomOccupation>
+              </Room>)}
+            </ContainerRooms></>)
             : ticketInfo.hasHotel ?
               <span>HOTEL COMPONENT AQUI</span>
               : <ForbidText>Sua modalidade de ingresso não inclui hospedagem
@@ -77,7 +95,7 @@ const StyledTypography = styled(Typography)`
   margin-bottom: 20px!important;
 `;
 
-const Container = styled.div`
+const ContainerHotels = styled.div`
 display: flex;
 `;
 
@@ -117,7 +135,31 @@ const HotelOption = styled.div`
 `;
 
 const HotelTypes = styled.div`
-display: flex;
+  display: flex;
+`;
+
+const ContainerRooms = styled.div`
+  height: auto;
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const Room = styled.div`
+  width: 190px;
+  height: 45px;
+  border: 1px solid #CECECE;
+  box-sizing: border-box;
+  border-radius: 10px;
+  margin:  0 8px 16px 8px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  justify-content: space-between;
+`;
+
+const RoomOccupation = styled.div`
+  background: aquamarine;
 `;
 
 /*
