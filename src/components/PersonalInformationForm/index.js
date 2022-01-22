@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import DateFnsUtils from "@date-io/date-fns";
 import Typography from "@material-ui/core/Typography";
@@ -7,6 +7,8 @@ import dayjs from "dayjs";
 import CustomParseFormat from "dayjs/plugin/customParseFormat";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MenuItem from "@material-ui/core/MenuItem";
+
+import TicketContext from "../../contexts/TicketContext";
 
 import useApi from "../../hooks/useApi";
 import { useForm } from "../../hooks/useForm";
@@ -26,6 +28,8 @@ dayjs.extend(CustomParseFormat);
 export default function PersonalInformationForm() {
   const [dynamicInputIsLoading, setDynamicInputIsLoading] = useState(false);
   const { enrollment, cep } = useApi();
+
+  const { setTicketData } = useContext(TicketContext);
 
   const {
     handleSubmit,
@@ -54,7 +58,9 @@ export default function PersonalInformationForm() {
         phone: data.phone.replace(/[^0-9]+/g, "").replace(/^(\d{2})(9?\d{4})(\d{4})$/, "($1) $2-$3"),
       };
 
-      enrollment.save(newData).then(() => {
+      enrollment.save(newData).then((res) => {
+        const { enrollmentId } = res.data;
+        setTicketData({ enrollmentId });
         toast("Salvo com sucesso!");
       }).catch((error) => {
         if (error.response?.data?.details) {

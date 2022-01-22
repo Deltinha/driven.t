@@ -9,4 +9,12 @@ export default class TicketApi extends AuthenticatedApi {
       }
     });
   }
+
+  createTicket(body) {
+    return api.post("/tickets", body, {
+      headers: {
+        ...this.getAuthorizationHeader()
+      }
+    });
+  }
 }

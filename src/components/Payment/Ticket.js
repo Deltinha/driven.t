@@ -1,9 +1,8 @@
-import { useState } from "react";
 import styled from "styled-components";
 
 export default function Ticket({ name, price, selectTicket, isSelected }) {
   return (
-    <TicketCard selected={isSelected} onClick={() => selectTicket(name)}>
+    <TicketCard selected={isSelected} onClick={() => selectTicket(name, price)}>
       <Name>{name}</Name>
       <Price>R$ {price}</Price>
     </TicketCard>
