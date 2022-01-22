@@ -1,9 +1,7 @@
-import styled from "styled-components";
 import { useState } from "react";
 import PaymentForm from "./PaymentForm";
 import Button from "../../Form/Button";
 import validations from "./FormValidations";
-import Typography from "@material-ui/core/Typography";
 import InfoText from "./InfoText";
 import TicketResume from "./TicketResume";
 
@@ -33,7 +31,6 @@ export default function Checkout() {
 
   return (
     <>
-      <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
       <TicketResume
         ticketInfo={ticket}
         setTicketInfo={setTicket}
@@ -58,7 +55,3 @@ export default function Checkout() {
     </>
   );
 }
-
-const StyledTypography = styled(Typography)`
-  margin-bottom: 20px!important;
-`;
