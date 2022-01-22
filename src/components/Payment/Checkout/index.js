@@ -4,6 +4,7 @@ import PaymentForm from "./PaymentForm";
 import Button from "../../Form/Button";
 import validations from "./FormValidations";
 import Typography from "@material-ui/core/Typography";
+import InfoText from "./InfoText";
 
 export default function Checkout() {
   const [number, setNumber] = useState("");
@@ -54,10 +55,4 @@ export default function Checkout() {
 
 const StyledTypography = styled(Typography)`
   margin-bottom: 20px!important;
-`;
-
-const InfoText = styled.p`
-  color: #8E8E8E;
-  font-size: 20px;
-  line-height: 23px;
 `;
