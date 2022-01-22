@@ -8,6 +8,7 @@ export default function Hotel() {
   const [ticketInfo, setTicketInfo] = useState({});
   const { ticket, hotel } = useApi();
   const [ hotels, setHotels ] = useState([]);
+  const [ selectedHotel, setSelectedHotel ] = useState(true);
 
   useEffect(() => {
     ticket.getTicketFromUser()
@@ -32,10 +33,12 @@ export default function Hotel() {
         ticketInfo.hasHotel ?
           <HotelOption>COMPONENTE SELECT HOTEL AQUI</HotelOption> 
           : Object.keys(ticketInfo).length === 0 ?
-            (hotels?.map((hotel) => 
+            (<Container>{hotels?.map((hotel) => 
               <HotelOption
                 id={hotel.id}
                 image={hotel.image}
+                selectedHotel={selectedHotel}
+                onClick={() => setSelectedHotel(hotel.id)}
               >
                 <div className="image"></div>
                 <p className="title">{hotel.name}</p>
@@ -44,7 +47,7 @@ export default function Hotel() {
                 <p className="subtitles">Vagas disponíveis:</p>
                 <p className="values">{hotel.vacancies}</p>
               </HotelOption>
-            ))
+            )}</Container>)
             : ticketInfo.hasHotel ?
               <span>HOTEL COMPONENT AQUI</span>
               : <ForbidText>Sua modalidade de ingresso não inclui hospedagem
@@ -54,8 +57,28 @@ export default function Hotel() {
   );
 }
 
+/*
+ <>
+      <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
+      {
+        ticketInfo.hasHotel ?
+          <span>COMPONENTE SELECT HOTEL AQUI</span> 
+          : Object.keys(ticketInfo).length === 0 ?
+            <ForbidText>Você precisa ter confirmado pagamento antes de fazer a escolha de hospedagem</ForbidText>
+            : ticketInfo.hasHotel ?
+              <span>HOTEL COMPONENT AQUI</span>
+              : <ForbidText>Sua modalidade de ingresso não inclui hospedagem
+                <br/>Prossiga para a escolha de atividades</ForbidText>
+      }
+    </>
+*/
+
 const StyledTypography = styled(Typography)`
   margin-bottom: 20px!important;
+`;
+
+const Container = styled.div`
+display: flex;
 `;
 
 const HotelOption = styled.div`
@@ -66,6 +89,7 @@ const HotelOption = styled.div`
   margin: 10px 10px;
   border-radius: 10px;
   padding: 15px;
+  cursor: pointer;
   .image {
     height: 109px;
     width: 168px;
