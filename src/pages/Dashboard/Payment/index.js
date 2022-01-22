@@ -4,7 +4,7 @@ import useApi from "../../../hooks/useApi";
 import styled from "styled-components";
 import { Typography } from "@material-ui/core";
 import ForbidText from "../../../components/ForbidText";
-import SelectTickets from "../../../components/Payment/SelectTickets";
+import SelectTickets from "../../../components/Payment/Tickets/SelectTickets";
 import TicketContext from "../../../contexts/TicketContext";
 
 export default function Payment() {
@@ -79,6 +79,7 @@ const Div = styled.div`
 `;
 
 const Button = styled.button`
+  display: block;
   margin-top: 17px;
   background-color: #E0E0E0;
   border: 0;

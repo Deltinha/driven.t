@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import styled from "styled-components";
 import Ticket from "./Ticket";
 
-import TicketContext from "../../contexts/TicketContext";
+import TicketContext from "../../../contexts/TicketContext";
 
 export default function SelectTickets() {
   const tickets = [
