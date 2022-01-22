@@ -1,19 +1,27 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import Ticket from "./Ticket";
 
 import TicketContext from "../../../contexts/TicketContext";
 
-export default function SelectTickets() {
-  const tickets = [
-    { name: "Presencial", price: 250 },
-    { name: "Online", price: 100 }
-  ];
+import useApi from "../../../hooks/useApi";
 
+export default function SelectTickets() {
+  const { ticket } = useApi();
+
+  const [ticketsTypes, setTicketsTypes] = useState([]);
   const { ticketData, setTicketData } = useContext(TicketContext);
   const [selectedItem, setSelectedItem] = useState();
 
-  function handleClick(name, price) { 
+  useEffect(() => {
+    ticket.getTicketsTypes()
+      .then(res => {
+        setTicketsTypes(res.data);
+      })
+      .catch(error => console.log(error));
+  }, []);
+
+  function handleClick(name, value) { 
     if (selectedItem === name) {
       setSelectedItem(false);
       setTicketData({
@@ -24,7 +32,7 @@ export default function SelectTickets() {
       setSelectedItem(name);
       setTicketData({
         ...ticketData,
-        ticketValue: price
+        ticketValue: value
       });
     }
   }
@@ -36,10 +44,10 @@ export default function SelectTickets() {
       </InfoText>
 
       <TicketArea>
-        {tickets.map(ticket => (
+        {ticketsTypes.map(ticket => (
           <Ticket  
             name={ticket.name} 
-            price={ticket.price} 
+            value={ticket.value} 
             selectTicket={handleClick} 
             isSelected={selectedItem === ticket.name}/>
         ))}

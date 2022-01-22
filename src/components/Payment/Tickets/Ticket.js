@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-export default function Ticket({ name, price, selectTicket, isSelected }) {
+export default function Ticket({ name, value, selectTicket, isSelected }) {
   return (
-    <TicketCard selected={isSelected} onClick={() => selectTicket(name, price)}>
+    <TicketCard selected={isSelected} onClick={() => selectTicket(name, value)}>
       <Name>{name}</Name>
-      <Price>R$ {price}</Price>
+      <Value>R$ {value}</Value>
     </TicketCard>
   );
 }
@@ -31,7 +31,7 @@ const Name = styled.p`
   line-height: 19px;
 `;
 
-const Price = styled.p`
+const Value = styled.p`
   font-size: 14px;
   line-height: 16px;
   text-align: center;
