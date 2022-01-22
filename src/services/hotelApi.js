@@ -18,7 +18,7 @@ export default class Hotel extends AuthenticatedApi {
     });
   }
 
-  saveReservation(roomId) {
+  /* saveReservation(roomId) {
     return api.post(
       `/hotels/reservation/${roomId}`,
       {},
@@ -36,5 +36,5 @@ export default class Hotel extends AuthenticatedApi {
         ...this.getAuthorizationHeader(),
       },
     });
-  }
+  }*/
 }
