@@ -25,8 +25,10 @@ export default function TicketResume({ ticketInfo, setTicketInfo }) {
 }
 
 const StyledTicket = styled(TicketCard)`
-  margin: 20px 0 25px;
+  margin: 20px 0 30px;
   width: fit-content;
   padding: 0 65px;
+  height: 100px;
   background-color: #FFEED2;
+  cursor: default;
 `;
