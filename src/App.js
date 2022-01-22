@@ -39,6 +39,7 @@ export default function App() {
               <ConditionalRoute check={ensureAuthenticated} path="/dashboard">
                 <Dashboard />
               </ConditionalRoute>
+              
             </Switch>
           </Router>
         </UserProvider>
