@@ -1,16 +1,17 @@
 import styled from "styled-components";
 
-export default function Ticket({ name, price }) {
+export default function Ticket({ name, value, selectTicket, isSelected }) {
   return (
-    <TicketCard>
+    <TicketCard selected={isSelected} onClick={() => selectTicket(name, value)}>
       <Name>{name}</Name>
-      <Price>R$ {price}</Price>
+      <Value>R$ {value}</Value>
     </TicketCard>
   );
 }
 
 const TicketCard = styled.div`
-  border: 1px solid #CECECE;
+  background-color: ${({ selected }) => selected ? "#FFEED2" : "#FFFFFF"};
+  border: ${({ selected }) => selected ? "none" : "1px solid #CECECE"};
   box-sizing: border-box;
   border-radius: 20px;
   width: 145px;
@@ -30,7 +31,7 @@ const Name = styled.p`
   line-height: 19px;
 `;
 
-const Price = styled.p`
+const Value = styled.p`
   font-size: 14px;
   line-height: 16px;
   text-align: center;
