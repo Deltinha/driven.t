@@ -2,13 +2,16 @@ import { useState } from "react";
 import PaymentForm from "./PaymentForm";
 import Button from "../../Form/Button";
 import validations from "./FormValidations";
+import useApi from "../../../hooks/useApi";
+import { toast } from "react-toastify";
 
-export default function Payment() {
+export default function Payment({ ticketInfo, setTicketInfo }) {
   const [number, setNumber] = useState("");
   const [name, setName] = useState("");
   const [expiry, setExpiry] = useState("");
   const [cvc, setCvc] = useState("");
   const [errors, setErrors] = useState({});
+  const { ticket } = useApi();
 
   function submitPayment(event) {
     event.preventDefault();
@@ -24,6 +27,18 @@ export default function Payment() {
     setErrors(verifyErrors);
     
     if (Object.values(verifyErrors).some((error) => error)) return;
+
+    ticket.payTicket()
+      .then(() => {
+        setTicketInfo({
+          ...ticketInfo,
+          isPaid: true,
+        });
+        toast("Pagamento efetuado!");
+      })
+      .catch((error) => {
+        toast(error.response.data.message);
+      });
   }
 
   return (
