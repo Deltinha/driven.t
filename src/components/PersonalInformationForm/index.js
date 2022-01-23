@@ -54,7 +54,7 @@ export default function PersonalInformationForm() {
         phone: data.phone.replace(/[^0-9]+/g, "").replace(/^(\d{2})(9?\d{4})(\d{4})$/, "($1) $2-$3"),
       };
 
-      enrollment.save(newData).then(() => {
+      enrollment.save(newData).then((res) => {
         toast("Salvo com sucesso!");
       }).catch((error) => {
         if (error.response?.data?.details) {
