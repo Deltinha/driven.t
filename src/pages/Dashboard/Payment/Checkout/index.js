@@ -1,7 +1,7 @@
 import Checkout from "../../../../components/Payment/Checkout";
 
-export default function CheckoutPage() {
+export default function CheckoutPage({ userTicket, setUserTicket }) {
   return (
-    <Checkout />
+    <Checkout userTicket={userTicket} setUserTicket={setUserTicket} />
   );
 }

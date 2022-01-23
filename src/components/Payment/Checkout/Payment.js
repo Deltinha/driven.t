@@ -5,7 +5,7 @@ import validations from "./FormValidations";
 import useApi from "../../../hooks/useApi";
 import { toast } from "react-toastify";
 
-export default function Payment({ ticketInfo, setTicketInfo }) {
+export default function Payment({ userTicket, setUserTicket }) {
   const [number, setNumber] = useState("");
   const [name, setName] = useState("");
   const [expiry, setExpiry] = useState("");
@@ -33,8 +33,8 @@ export default function Payment({ ticketInfo, setTicketInfo }) {
 
     ticket.payTicket()
       .then(() => {
-        setTicketInfo({
-          ...ticketInfo,
+        setUserTicket({
+          ...userTicket,
           isPaid: true,
         });
         setLoading(false);
@@ -59,7 +59,7 @@ export default function Payment({ ticketInfo, setTicketInfo }) {
         setCvc={setCvc}
         errors={errors}
       />
-      <Button type="submit" disabled={!ticketInfo || loading}>
+      <Button type="submit" disabled={!userTicket || loading}>
           Finalizar Pagamento
       </Button>
     </form>

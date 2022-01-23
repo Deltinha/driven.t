@@ -18,6 +18,7 @@ export default function Payment() {
 
   const [ticketsTypes, setTicketsTypes] = useState([]);
   const [enrollmentInfo, setEnrollmentInfo] = useState("");
+  const [userTicket, setUserTicket] = useState(null);
   const history = useHistory();
   const match = useRouteMatch();
 
@@ -28,7 +29,10 @@ export default function Payment() {
 
         ticket.getTicketFromUser()
           .then((response) => {
-            if (response.data) return history.push(`${match.path}/checkout`);
+            if (response.data) {
+              setUserTicket(response.data);
+              return history.push(`${match.path}/checkout`);
+            };
 
             ticket.getTicketsTypes()
               .then(res => setTicketsTypes(res.data))
@@ -57,6 +61,12 @@ export default function Payment() {
 
     ticket.createTicket(body)
       .then(() => {
+        setUserTicket({
+          ...body,
+          ticketsTypeId: {
+            name: ticketInfo.name
+          },
+        });
         toast("Ingresso reservado com sucesso!");
         history.push(`${match.path}/checkout`);
       })
@@ -97,7 +107,7 @@ export default function Payment() {
           </Route>
 
           <Route path={`${match.path}/checkout`} exact>
-            <Checkout />
+            <Checkout userTicket={userTicket} setUserTicket={setUserTicket} />
           </Route>
         </Switch>
       ) : (

@@ -1,25 +1,21 @@
-import { useState } from "react";
 import InfoText from "./InfoText";
 import TicketResume from "./TicketResume";
 import Payment from "./Payment";
 import PaidConfirmation from "./PaidConfirmation";
 
-export default function Checkout() {
-  const [ticket, setTicket] = useState(null);
-
+export default function Checkout({ userTicket, setUserTicket }) {
   return (
     <>
       <TicketResume
-        ticketInfo={ticket}
-        setTicketInfo={setTicket}
+        userTicket={userTicket}
       />
       <InfoText>Pagamento</InfoText>
-      {ticket?.isPaid ? (
+      {userTicket?.isPaid ? (
         <PaidConfirmation />
       ) : (
         <Payment
-          ticketInfo={ticket}
-          setTicketInfo={setTicket}
+          userTicket={userTicket}
+          setUserTicket={setUserTicket}
         />
       )}
     </>

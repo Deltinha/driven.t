@@ -1,25 +1,14 @@
 import styled from "styled-components";
-import { useEffect } from "react";
-import useApi from "../../../hooks/useApi";
 import InfoText from "./InfoText";
 import { TicketCard, Name, Value } from "../Tickets/Ticket";
-import { toast } from "react-toastify";
 
-export default function TicketResume({ ticketInfo, setTicketInfo }) {
-  const { ticket } = useApi();
-
-  useEffect(() => {
-    ticket.getTicketFromUser()
-      .then((response) => setTicketInfo(response.data))
-      .catch((error) => toast(error.response.data.message));
-  }, []);
-
+export default function TicketResume({ userTicket }) {
   return (
     <>
       <InfoText>Ingresso escolhido</InfoText>
-      {ticketInfo && <StyledTicket>
-        <Name>{ticketInfo.ticketsTypeId?.name.concat(ticketInfo?.hasHotel ? " + Com Hotel" : "")}</Name>
-        <Value>R$ {Number(ticketInfo.value)}</Value>
+      {userTicket && <StyledTicket>
+        <Name>{userTicket.ticketsTypeId?.name.concat(userTicket?.hasHotel ? " + Com Hotel" : "")}</Name>
+        <Value>R$ {Number(userTicket.value)}</Value>
       </StyledTicket>}
     </>
   );
