@@ -4,7 +4,7 @@ export default function Ticket({ name, value, selectTicket, isSelected }) {
   return (
     <TicketCard selected={isSelected} onClick={() => selectTicket(name, value)}>
       <Name>{name}</Name>
-      <Value>R$ {value}</Value>
+      <Value>{name.includes("Hotel") ? "+" : ""} R$ {value}</Value>
     </TicketCard>
   );
 }
