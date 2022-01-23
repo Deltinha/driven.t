@@ -4,6 +4,7 @@ import { Typography } from "@material-ui/core";
 import useApi from "../../../hooks/useApi";
 import ForbidText from "../../../components/ForbidText";
 import Rooms from "./Rooms";
+import SelectionOverview from "./SelectionOverview";
 
 export default function Hotel() {
   const [ticketInfo, setTicketInfo] = useState({});
@@ -12,12 +13,21 @@ export default function Hotel() {
   const [ selectedHotel, setSelectedHotel ] = useState(false);
   const [rooms, setRooms] = useState([]);
   const [ selectedRoom, setSelectedRoom ] = useState(false);
+  const [bookingInfo, setBookingInfo] = useState({});
+
+  function getBooking() {
+    hotel.getBooking()
+      .then(res =>
+        setBookingInfo(res.data))
+      .catch(err => console.error(err));
+  }
 
   useEffect(() => {
     ticket.getTicketFromUser()
       .then(res => 
         setTicketInfo(res.data))
       .catch(err => console.error(err));
+    getBooking();
   }, []);
 
   useEffect(() => {
@@ -42,31 +52,31 @@ export default function Hotel() {
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
       {
-        ticketInfo.hasHotel ?
-          <HotelOption>COMPONENTE SELECT HOTEL AQUI</HotelOption> 
-          : Object.keys(ticketInfo).length === 0 ?
-            (<><ContainerHotels>{hotels?.map((hotel) => 
-              <HotelOption
-                id={hotel.id}
-                image={hotel.image}
-                selectedHotel={selectedHotel}
-                onClick={() => selectAHotel(hotel.id)}
-              >
-                <div className="image"></div>
-                <p className="title">{hotel.name}</p>
-                <p className="subtitles">Tipos de acomodação:</p>
-                <HotelTypes>{hotel.hotelTypes.map((type, i) => <p className="values">{type}{i === 0 ? " e" : ""}</p>)}</HotelTypes>                
-                <p className="subtitles">Vagas disponíveis:</p>
-                <p className="values">{hotel.vacancies}</p>
-              </HotelOption>
-            )}</ContainerHotels>
-            <ContainerRooms>
-              {rooms?.map((room) => <Rooms selectedRoom = {selectedRoom} setSelectedRoom = {setSelectedRoom} room = {room}/> )}
-            </ContainerRooms></>)
-            : ticketInfo.hasHotel ?
-              <span>HOTEL COMPONENT AQUI</span>
-              : <ForbidText>Sua modalidade de ingresso não inclui hospedagem
-                <br/>Prossiga para a escolha de atividades</ForbidText>
+        Object.keys(ticketInfo).length === 0 ?
+          <ForbidText>Você precisa ter confirmado pagamento antes de fazer a escolha de hospedagem</ForbidText>
+          : !ticketInfo.hasHotel ?
+            <ForbidText>Sua modalidade de ingresso não inclui hospedagem
+              <br/>Prossiga para a escolha de atividades</ForbidText>
+            : Object.keys(bookingInfo).length === 0 ?
+              (<><ContainerHotels>{hotels?.map((hotel) => 
+                <HotelOption
+                  id={hotel.id}
+                  image={hotel.image}
+                  selectedHotel={selectedHotel}
+                  onClick={() => selectAHotel(hotel.id)}
+                >
+                  <div className="image"></div>
+                  <p className="title">{hotel.name}</p>
+                  <p className="subtitles">Tipos de acomodação:</p>
+                  <HotelTypes>{hotel.hotelTypes.map((type, i) => <p className="values">{type}{i === 0 ? " e" : ""}</p>)}</HotelTypes>                
+                  <p className="subtitles">Vagas disponíveis:</p>
+                  <p className="values">{hotel.vacancies}</p>
+                </HotelOption>
+              )}</ContainerHotels>
+              <ContainerRooms>
+                {rooms?.map((room) => <Rooms selectedRoom = {selectedRoom} setSelectedRoom = {setSelectedRoom} room = {room}/> )}
+              </ContainerRooms></>)
+              :  <SelectionOverview booking={bookingInfo} HotelOption={HotelOption}/>
       }
     </>
   );

@@ -18,6 +18,14 @@ export default class Hotel extends AuthenticatedApi {
     });
   }
 
+  getBooking() {
+    return api.get("/hotels/booking", {
+      headers: {
+        ...this.getAuthorizationHeader(),
+      },
+    });
+  }
+
   /* saveReservation(roomId) {
     return api.post(
       `/hotels/reservation/${roomId}`,
