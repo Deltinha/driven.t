@@ -18,7 +18,7 @@ export default function TicketResume({ ticketInfo, setTicketInfo }) {
       <InfoText>Ingresso escolhido</InfoText>
       <StyledTicket>
         <Name>{ticketInfo.ticketsTypeId?.name.concat(ticketInfo?.hasHotel ? " + Com Hotel" : "")}</Name>
-        <Value>R$ {ticketInfo.ticketsTypeId?.value + (ticketInfo?.hasHotel ? 350 : 0)}</Value>
+        <Value>R$ {Number(ticketInfo.value)}</Value>
       </StyledTicket>
     </>
   );
