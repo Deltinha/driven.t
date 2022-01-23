@@ -5,7 +5,7 @@ import Payment from "./Payment";
 import PaidConfirmation from "./PaidConfirmation";
 
 export default function Checkout() {
-  const [ticket, setTicket] = useState({});
+  const [ticket, setTicket] = useState(null);
 
   return (
     <>
@@ -17,7 +17,10 @@ export default function Checkout() {
       {ticket?.isPaid ? (
         <PaidConfirmation />
       ) : (
-        <Payment />
+        <Payment
+          ticketInfo={ticket}
+          setTicketInfo={setTicket}
+        />
       )}
     </>
   );

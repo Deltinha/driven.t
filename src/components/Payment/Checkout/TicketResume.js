@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import useApi from "../../../hooks/useApi";
 import InfoText from "./InfoText";
 import { TicketCard, Name, Price } from "../Ticket";
+import { toast } from "react-toastify";
 
 export default function TicketResume({ ticketInfo, setTicketInfo }) {
   const { ticket } = useApi();
@@ -10,16 +11,16 @@ export default function TicketResume({ ticketInfo, setTicketInfo }) {
   useEffect(() => {
     ticket.getTicketFromUser()
       .then((response) => setTicketInfo(response.data))
-      .catch((err) => alert(err));
+      .catch((error) => toast(error.response.data.message));
   }, []);
 
   return (
     <>
       <InfoText>Ingresso escolhido</InfoText>
-      <StyledTicket>
-        <Name>{ticketInfo.ticketsTypeId?.name.concat(ticketInfo?.hasHotel ? " + Com Hotel" : "")}</Name>
-        <Price>R$ {ticketInfo.ticketsTypeId?.value + (ticketInfo?.hasHotel ? 350 : 0)}</Price>
-      </StyledTicket>
+      {ticketInfo && (<StyledTicket>
+        <Name>{ticketInfo.ticketsTypeId.name.concat(ticketInfo.hasHotel ? " + Com Hotel" : "")}</Name>
+        <Price>R$ {ticketInfo.ticketsTypeId.value + (ticketInfo.hasHotel ? 350 : 0)}</Price>
+      </StyledTicket>)}
     </>
   );
 }
