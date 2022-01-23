@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useEffect } from "react";
 import useApi from "../../../hooks/useApi";
 import InfoText from "./InfoText";
-import { TicketCard, Name, Price } from "../Ticket";
+import { TicketCard, Name, Value } from "../Tickets/Ticket";
 
 export default function TicketResume({ ticketInfo, setTicketInfo }) {
   const { ticket } = useApi();
@@ -18,7 +18,7 @@ export default function TicketResume({ ticketInfo, setTicketInfo }) {
       <InfoText>Ingresso escolhido</InfoText>
       <StyledTicket>
         <Name>{ticketInfo.ticketsTypeId?.name.concat(ticketInfo?.hasHotel ? " + Com Hotel" : "")}</Name>
-        <Price>R$ {ticketInfo.ticketsTypeId?.value + (ticketInfo?.hasHotel ? 350 : 0)}</Price>
+        <Value>R$ {ticketInfo.ticketsTypeId?.value + (ticketInfo?.hasHotel ? 350 : 0)}</Value>
       </StyledTicket>
     </>
   );
