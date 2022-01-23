@@ -151,19 +151,3 @@ const ContainerRooms = styled.div`
   display: flex;
   flex-wrap: wrap;
 `;
-
-/*
-<HotelOption
-              id={id}
-              image={image}
-              selectedHotel={selectedHotel}
-              onClick={() => setSelectedHotel(id)}
-            >
-              <div className="image"></div>
-              <p className="title">{name}</p>
-              <p className="subtitles">Tipos de acomodação:</p>
-              <p className="values">{hotelType}</p>
-              <p className="subtitles">Vagas disponíveis:</p>
-              <p className="values">{availableRooms}</p>
-            </HotelOption>
-*/
