@@ -1,22 +1,22 @@
+import { useContext } from "react";
+import TicketContext from "../../../contexts/TicketContext";
 import InfoText from "./InfoText";
 import TicketResume from "./TicketResume";
 import Payment from "./Payment";
 import PaidConfirmation from "./PaidConfirmation";
 
-export default function Checkout({ userTicket, setUserTicket }) {
+export default function Checkout() {
+  const { ticketData } = useContext(TicketContext);
+
   return (
     <>
-      <TicketResume
-        userTicket={userTicket}
-      />
+      <TicketResume />
       <InfoText>Pagamento</InfoText>
-      {userTicket?.isPaid ? (
+
+      {ticketData?.isPaid ? (
         <PaidConfirmation />
       ) : (
-        <Payment
-          userTicket={userTicket}
-          setUserTicket={setUserTicket}
-        />
+        <Payment />
       )}
     </>
   );

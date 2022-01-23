@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import TicketContext from "../../../contexts/TicketContext";
 import PaymentForm from "./PaymentForm";
 import Button from "../../Form/Button";
 import validations from "./FormValidations";
@@ -6,7 +7,8 @@ import useApi from "../../../hooks/useApi";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 
-export default function Payment({ userTicket, setUserTicket }) {
+export default function Payment() {
+  const { ticketData, setTicketData } = useContext(TicketContext);
   const [number, setNumber] = useState("");
   const [name, setName] = useState("");
   const [expiry, setExpiry] = useState("");
@@ -17,7 +19,7 @@ export default function Payment({ userTicket, setUserTicket }) {
   const history = useHistory();
 
   useEffect(() => {
-    if (!userTicket) return history.push("/dashboard/payment");
+    if (!ticketData) return history.push("/dashboard/payment");
   }, []);
 
   function submitPayment(event) {
@@ -39,8 +41,8 @@ export default function Payment({ userTicket, setUserTicket }) {
 
     ticket.payTicket()
       .then(() => {
-        setUserTicket({
-          ...userTicket,
+        setTicketData({
+          ...ticketData,
           isPaid: true,
         });
         setLoading(false);
@@ -65,7 +67,7 @@ export default function Payment({ userTicket, setUserTicket }) {
         setCvc={setCvc}
         errors={errors}
       />
-      <Button type="submit" disabled={!userTicket || loading}>
+      <Button type="submit" disabled={!ticketData || loading}>
           Finalizar Pagamento
       </Button>
     </form>

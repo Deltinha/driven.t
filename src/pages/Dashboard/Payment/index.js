@@ -14,11 +14,10 @@ import Checkout from "./Checkout";
 
 export default function Payment() {
   const { enrollment, ticket } = useApi();
-  const { ticketData } = useContext(TicketContext);
+  const { ticketData, setTicketData } = useContext(TicketContext);
 
   const [ticketsTypes, setTicketsTypes] = useState([]);
   const [enrollmentInfo, setEnrollmentInfo] = useState("");
-  const [userTicket, setUserTicket] = useState(null);
   const history = useHistory();
   const match = useRouteMatch();
 
@@ -30,7 +29,7 @@ export default function Payment() {
         ticket.getTicketFromUser()
           .then((response) => {
             if (response.data) {
-              setUserTicket(response.data);
+              setTicketData(response.data);
               return history.push(`${match.path}/checkout`);
             };
 
@@ -61,7 +60,7 @@ export default function Payment() {
 
     ticket.createTicket(body)
       .then(() => {
-        setUserTicket({
+        setTicketData({
           ...body,
           ticketsTypeId: {
             name: ticketInfo.name
@@ -107,7 +106,7 @@ export default function Payment() {
           </Route>
 
           <Route path={`${match.path}/checkout`} exact>
-            <Checkout userTicket={userTicket} setUserTicket={setUserTicket} />
+            <Checkout />
           </Route>
         </Switch>
       ) : (

@@ -1,14 +1,18 @@
+import { useContext } from "react";
+import TicketContext from "../../../contexts/TicketContext";
 import styled from "styled-components";
 import InfoText from "./InfoText";
 import { TicketCard, Name, Value } from "../Tickets/Ticket";
 
-export default function TicketResume({ userTicket }) {
+export default function TicketResume() {
+  const { ticketData } = useContext(TicketContext);
+
   return (
     <>
       <InfoText>Ingresso escolhido</InfoText>
-      {userTicket && <StyledTicket>
-        <Name>{userTicket.ticketsTypeId?.name.concat(userTicket?.hasHotel ? " + Com Hotel" : "")}</Name>
-        <Value>R$ {Number(userTicket.value)}</Value>
+      {ticketData && <StyledTicket>
+        <Name>{ticketData.ticketsTypeId?.name.concat(ticketData?.hasHotel ? " + Com Hotel" : "")}</Name>
+        <Value>R$ {Number(ticketData.value)}</Value>
       </StyledTicket>}
     </>
   );
