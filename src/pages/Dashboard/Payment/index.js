@@ -6,6 +6,7 @@ import { Typography } from "@material-ui/core";
 import ForbidText from "../../../components/ForbidText";
 import SelectTickets from "../../../components/Payment/SelectTickets";
 import Checkout from "./Checkout";
+import { toast } from "react-toastify";
 
 export default function Payment() {
   const [enrollmentInfo, setEnrollmentInfo] = useState("");
@@ -15,10 +16,8 @@ export default function Payment() {
   useEffect(() => {
     enrollment.getPersonalInformations()
       .then(res => setEnrollmentInfo(res.data))
-      .catch(err => console.log(err));
+      .catch(err => toast(err));
   }, []);
-
-  console.log(enrollmentInfo);
 
   return (
     <>
