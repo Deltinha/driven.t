@@ -1,4 +1,4 @@
-import { Switch, Route, useRouteMatch } from "react-router-dom";
+import { Switch, Route, useRouteMatch, useHistory } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { toast } from "react-toastify";
 import useApi from "../../../hooks/useApi";
@@ -18,6 +18,7 @@ export default function Payment() {
 
   const [ticketsTypes, setTicketsTypes] = useState([]);
   const [enrollmentInfo, setEnrollmentInfo] = useState("");
+  const history = useHistory();
   const match = useRouteMatch();
 
   useEffect(() => {
@@ -49,7 +50,10 @@ export default function Payment() {
     };
 
     ticket.createTicket(body)
-      .then(() => toast("Ingresso reservado com sucesso!"))
+      .then(() => {
+        toast("Ingresso reservado com sucesso!");
+        history.push(`${match.path}/checkout`);
+      })
       .catch((error) => {
         if (error.response.status === 409) {
           toast("Essa reserva já possui ingresso!");
