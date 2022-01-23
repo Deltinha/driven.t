@@ -8,24 +8,34 @@ import SelectTickets from "../../../components/Payment/Tickets/SelectTickets";
 import TicketContext from "../../../contexts/TicketContext";
 
 export default function Payment() {
-  const [enrollmentInfo, setEnrollmentInfo] = useState("");
   const { enrollment, ticket } = useApi();
-
   const { ticketData } = useContext(TicketContext);
+ 
+  const [ticketsTypes, setTicketsTypes] = useState([]);
+  const [enrollmentInfo, setEnrollmentInfo] = useState("");
 
   useEffect(() => {
     enrollment.getPersonalInformations()
-      .then(res => setEnrollmentInfo(res.data))
+      .then(res => {
+        setEnrollmentInfo(res.data);
+
+        ticket.getTicketsTypes()
+          .then(res => setTicketsTypes(res.data))
+          .catch(err => console.log(err));
+      })
       .catch(err => console.log(err));
   }, []);
 
-  function handleClick() {
-    const { ticketValue, enrollmentId } = ticketData;
+  function getTicketId(name) {
+    const ticketSelected = ticketsTypes.find(ticket => ticket.name === name);
+    return ticketSelected.id;
+  }
 
-    let ticketTypeId;
-    if (ticketValue === 100) ticketTypeId = 2;
+  function handleClick() {
+    const { ticketInfo, enrollmentId } = ticketData;
+    const ticketTypeId = getTicketId(ticketInfo.name);
     const body = {
-      value: ticketValue.toString(),
+      value: ticketInfo.value.toString(),
       isPaid: false,
       enrollmentId,
       ticketTypeId,
@@ -50,17 +60,17 @@ export default function Payment() {
 
       {!enrollmentInfo 
         ? <ForbidText>Você precisa completar sua inscrição antes de prosseguir pra escolha de ingresso</ForbidText>
-        : <SelectTickets />  
+        : <SelectTickets ticketsTypes={ticketsTypes} />  
       }
 
-      {!ticketData.ticketValue
+      {!ticketData.ticketInfo
         ? ""
         :  
-        (ticketData.ticketValue === 100 
+        (ticketData.ticketInfo.name === "Online" 
           ? 
           <Div>
-            Fechado! O total ficou em <strong>R$ {ticketData.ticketValue}</strong>. Agora é só confirmar:
-            <Button disabled={!ticketData} onClick={handleClick}>RESERVAR INGRESSO</Button>
+            Fechado! O total ficou em <strong>R$ {ticketData.ticketInfo.value}</strong>. Agora é só confirmar:
+            <Button disabled={!ticketData.ticketInfo} onClick={handleClick}>RESERVAR INGRESSO</Button>
           </Div> 
           : 
           "")

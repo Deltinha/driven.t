@@ -6,23 +6,16 @@ import TicketContext from "../../../contexts/TicketContext";
 
 import useApi from "../../../hooks/useApi";
 
-export default function SelectTickets() {
-  const { ticket, enrollment } = useApi();
+export default function SelectTickets({ ticketsTypes }) {
+  const { enrollment } = useApi();
   const { ticketData, setTicketData } = useContext(TicketContext);
 
   const [enrollmentId, setEnrollmentId] = useState("");
-  const [ticketsTypes, setTicketsTypes] = useState([]);
   const [selectedItem, setSelectedItem] = useState("");
 
   useEffect(() => {
-    ticket.getTicketsTypes()
-      .then(res => {
-        setTicketsTypes(res.data);
-
-        enrollment.getPersonalInformations()
-          .then(res => setEnrollmentId(res.data.id))
-          .catch(error => console.log(error));
-      })
+    enrollment.getPersonalInformations()
+      .then(res => setEnrollmentId(res.data.id))
       .catch(error => console.log(error));
   }, []);
 
@@ -32,14 +25,14 @@ export default function SelectTickets() {
       setTicketData({
         ...ticketData,
         enrollmentId: enrollmentId,
-        ticketValue: ""
+        ticketInfo: ""
       });
     } else {
       setSelectedItem(name);
       setTicketData({
         ...ticketData,
         enrollmentId: enrollmentId,
-        ticketValue: value
+        ticketInfo: { name, value }
       });
     }
   }
