@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PaymentForm from "./PaymentForm";
 import Button from "../../Form/Button";
 import validations from "./FormValidations";
 import useApi from "../../../hooks/useApi";
 import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
 
 export default function Payment({ userTicket, setUserTicket }) {
   const [number, setNumber] = useState("");
@@ -13,6 +14,11 @@ export default function Payment({ userTicket, setUserTicket }) {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const { ticket } = useApi();
+  const history = useHistory();
+
+  useEffect(() => {
+    if (!userTicket) return history.push("/dashboard/payment");
+  }, []);
 
   function submitPayment(event) {
     event.preventDefault();
