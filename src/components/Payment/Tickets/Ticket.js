@@ -9,7 +9,7 @@ export default function Ticket({ name, value, selectTicket, isSelected }) {
   );
 }
 
-const TicketCard = styled.div`
+export const TicketCard = styled.div`
   background-color: ${({ selected }) => selected ? "#FFEED2" : "#FFFFFF"};
   border: ${({ selected }) => selected ? "none" : "1px solid #CECECE"};
   box-sizing: border-box;
@@ -23,7 +23,7 @@ const TicketCard = styled.div`
   cursor: pointer;
 `;
 
-const Name = styled.p`
+export const Name = styled.p`
   color: #454545;
   font-style: normal;
   font-weight: normal;
@@ -31,7 +31,7 @@ const Name = styled.p`
   line-height: 19px;
 `;
 
-const Value = styled.p`
+export const Value = styled.p`
   font-size: 14px;
   line-height: 16px;
   text-align: center;

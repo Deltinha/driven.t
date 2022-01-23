@@ -1,3 +1,4 @@
+import { Switch, Route, useRouteMatch, useHistory } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { toast } from "react-toastify";
 import useApi from "../../../hooks/useApi";
@@ -9,13 +10,16 @@ import TicketContext from "../../../contexts/TicketContext";
 import SelectHosting from "../../../components/Payment/Tickets/SelectHosting";
 import BookTicketArea from "../../../components/Payment/Tickets/BookTicketArea";
 import { hostingTypes } from "../../../components/Payment/Tickets/HostingTypes";
+import Checkout from "./Checkout";
 
 export default function Payment() {
   const { enrollment, ticket } = useApi();
   const { ticketData } = useContext(TicketContext);
- 
+
   const [ticketsTypes, setTicketsTypes] = useState([]);
   const [enrollmentInfo, setEnrollmentInfo] = useState("");
+  const history = useHistory();
+  const match = useRouteMatch();
 
   useEffect(() => {
     enrollment.getPersonalInformations()
@@ -46,7 +50,10 @@ export default function Payment() {
     };
 
     ticket.createTicket(body)
-      .then(() => toast("Ingresso reservado com sucesso!"))
+      .then(() => {
+        toast("Ingresso reservado com sucesso!");
+        history.push(`${match.path}/checkout`);
+      })
       .catch((error) => {
         if (error.response.status === 409) {
           toast("Essa reserva já possui ingresso!");
@@ -61,27 +68,35 @@ export default function Payment() {
     <>
       <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
 
-      {!enrollmentInfo 
-        ? <ForbidText>Você precisa completar sua inscrição antes de prosseguir pra escolha de ingresso</ForbidText>
-        : <SelectTickets ticketsTypes={ticketsTypes} />  
-      }
-
-      {!ticketData.ticketInfo
-        ? ""
-        :  
-        (ticketData.ticketInfo.name === "Online" 
-          ? <BookTicketArea ticketData={ticketData} handleClick={handleClick} /> 
-          : 
-          <Div>
-            <SelectHosting hostingTypes={hostingTypes}/>
+      {enrollmentInfo ? (
+        <Switch>
+          <Route path={`${match.path}`} exact>
+            <SelectTickets ticketsTypes={ticketsTypes} />
+            {!ticketData.ticketInfo
+              ? ""
+              :  
+              (ticketData.ticketInfo.name === "Online" 
+                ? <BookTicketArea ticketData={ticketData} handleClick={handleClick} /> 
+                : 
+                <Div>
+                  <SelectHosting hostingTypes={hostingTypes}/>
             
-            {ticketData.ticketInfo.hasOwnProperty("hasHotel") 
-              ? <BookTicketArea ticketData={ticketData} handleClick={handleClick} />
-              : ""
+                  {ticketData.ticketInfo.hasOwnProperty("hasHotel") 
+                    ? <BookTicketArea ticketData={ticketData} handleClick={handleClick} />
+                    : ""
+                  }
+                </Div>
+              )
             }
-          </Div>
-        )
-      }
+          </Route>
+
+          <Route path={`${match.path}/checkout`} exact>
+            <Checkout />
+          </Route>
+        </Switch>
+      ) : (
+        <ForbidText>Você precisa completar sua inscrição antes de prosseguir pra escolha de ingresso</ForbidText>
+      )}
     </>
   );
 }
