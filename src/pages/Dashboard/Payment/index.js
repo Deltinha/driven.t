@@ -26,9 +26,15 @@ export default function Payment() {
       .then(res => {
         setEnrollmentInfo(res.data);
 
-        ticket.getTicketsTypes()
-          .then(res => setTicketsTypes(res.data))
-          .catch(err => console.log(err));
+        ticket.getTicketFromUser()
+          .then((response) => {
+            if (response.data) return history.push(`${match.path}/checkout`);
+
+            ticket.getTicketsTypes()
+              .then(res => setTicketsTypes(res.data))
+              .catch(err => console.log(err));
+          })
+          .catch((error) => toast(error.response.data.message));
       })
       .catch(err => console.log(err));
   }, []);
