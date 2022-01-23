@@ -11,6 +11,7 @@ export default function Payment({ ticketInfo, setTicketInfo }) {
   const [expiry, setExpiry] = useState("");
   const [cvc, setCvc] = useState("");
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
   const { ticket } = useApi();
 
   function submitPayment(event) {
@@ -28,15 +29,19 @@ export default function Payment({ ticketInfo, setTicketInfo }) {
     
     if (Object.values(verifyErrors).some((error) => error)) return;
 
+    setLoading(true);
+
     ticket.payTicket()
       .then(() => {
         setTicketInfo({
           ...ticketInfo,
           isPaid: true,
         });
+        setLoading(false);
         toast("Pagamento efetuado!");
       })
       .catch((error) => {
+        setLoading(false);
         toast(error.response.data.message);
       });
   }
@@ -54,7 +59,7 @@ export default function Payment({ ticketInfo, setTicketInfo }) {
         setCvc={setCvc}
         errors={errors}
       />
-      <Button type="submit">
+      <Button type="submit" disabled={!ticketInfo || loading}>
           Finalizar Pagamento
       </Button>
     </form>
