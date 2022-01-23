@@ -11,7 +11,7 @@ export default function Payment() {
   const [enrollmentInfo, setEnrollmentInfo] = useState("");
   const { enrollment, ticket } = useApi();
 
-  const { ticketData, setTicketData } = useContext(TicketContext);
+  const { ticketData } = useContext(TicketContext);
 
   useEffect(() => {
     enrollment.getPersonalInformations()
@@ -21,13 +21,6 @@ export default function Payment() {
 
   function handleClick() {
     const { ticketValue, enrollmentId } = ticketData;
-
-    if(!enrollmentId) {
-      setTicketData({
-        ...ticketData,
-        enrollmentId: Number(localStorage.getItem("enrollmentId"))
-      });
-    }
 
     let ticketTypeId;
     if (ticketValue === 100) ticketTypeId = 2;

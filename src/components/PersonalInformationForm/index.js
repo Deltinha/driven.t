@@ -59,7 +59,7 @@ export default function PersonalInformationForm() {
       };
 
       enrollment.save(newData).then((res) => {
-        const { enrollmentId } = res.data;
+        /* const { enrollmentId } = res.data;
         const enrollmentIdStorage = Number(localStorage.getItem("enrollmentId"));
 
         if (!enrollmentIdStorage) {
@@ -67,7 +67,7 @@ export default function PersonalInformationForm() {
           setTicketData({ enrollmentId });
         } else {
           setTicketData({ enrollmentIdStorage });
-        }
+        } */
 
         toast("Salvo com sucesso!");
       }).catch((error) => {
