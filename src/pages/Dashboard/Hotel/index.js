@@ -17,8 +17,6 @@ export default function Hotel() {
   const [isEditing, setIsEditing] = useState(false);
   const [bookedRoom, setBookedRoom] = useState(false);
 
-  console.log(selectedRoom, bookingInfo);
-
   function getBooking() {
     hotel.getBooking()
       .then(res =>
@@ -31,7 +29,6 @@ export default function Hotel() {
       .then(res => 
         setTicketInfo(res.data))
       .catch(err => console.error(err));
-    console.log(isEditing, "aqui");
     getBooking();
     hotel.listAll()
       .then(res => 
