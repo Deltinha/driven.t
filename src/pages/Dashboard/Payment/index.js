@@ -22,6 +22,11 @@ export default function Payment() {
   const match = useRouteMatch();
 
   useEffect(() => {
+    const { ticketInfo } = ticketData;
+    if (ticketInfo?.hasOwnProperty("hasHotel")) {
+      setTicketData({});
+    }
+
     enrollment.getPersonalInformations()
       .then(res => {
         setEnrollmentInfo(res.data);
