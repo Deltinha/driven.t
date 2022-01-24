@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import RoomIcons from "./RoomIcons";
 
-export default function Rooms({ setSelectedRoom, selectedRoom, room }) {
+export default function Rooms({ setSelectedRoom, selectedRoom, room, bookedRoom }) {
   function selectARoom() {
     setSelectedRoom(room.id);
   }
@@ -9,7 +9,7 @@ export default function Rooms({ setSelectedRoom, selectedRoom, room }) {
   return(
     <Room onClick={() => selectARoom()} selectedRoom={selectedRoom === room.id} disabled = {room.max_occupation === room.occupied}>{room.number} 
       <RoomOccupation >
-        <RoomIcons maxOccupation = {room.max_occupation} occupied = {room.occupied} hotelId = {room.hotelId} selectedRoom = {selectedRoom} room ={room}/>
+        <RoomIcons maxOccupation = {room.max_occupation} occupied = {room.occupied} hotelId = {room.hotelId} selectedRoom = {selectedRoom} room ={room} bookedRoom={bookedRoom}/>
       </RoomOccupation>
     </Room>
   );

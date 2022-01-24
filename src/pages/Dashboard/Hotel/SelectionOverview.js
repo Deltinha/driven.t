@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-export default function SelectionOverview({ booking, HotelOption }) {
+export default function SelectionOverview({ booking, HotelOption, setIsEditing, setBookedRoom, setSelectedRoom, selectedRoom }) {
   const [roomNumberText, setRoomNumberText] = useState("");
   const [pplInRoomText, setPplInRoomText] = useState("");
-  
+
+  console.log(booking);
+
   useEffect(() => {
     const occupationText = {
       1: "(Single)",
       2: "(Double)",
       3: "(Triple)"
     };
-    setRoomNumberText(`${booking.roomMaxOccupation} ${occupationText[booking.roomMaxOccupation]}`);
+    setRoomNumberText(`${booking.roomNumber} ${occupationText[booking.roomMaxOccupation]}`);
 
     const pplText = {
       1: "",
@@ -20,7 +22,13 @@ export default function SelectionOverview({ booking, HotelOption }) {
       4: "e mais 3",
     };
     setPplInRoomText(`Você ${pplText[booking.roomCurOccupation]}`);
-  });
+    setBookedRoom(booking.id);
+    setSelectedRoom(booking.id);
+  }, [selectedRoom]);
+
+  function deleteBookingInfo() {
+    setIsEditing((prev) => !prev);
+  }
 
   return (<>
     <InfoText>
@@ -36,6 +44,7 @@ export default function SelectionOverview({ booking, HotelOption }) {
       <p className="subtitles">Pessoas no seu quarto</p>
       <p className="values">{pplInRoomText}</p>
     </HotelOption>
+    <ChangeRooms onClick={deleteBookingInfo}>TROCAR DE QUARTO</ChangeRooms>
   </>);
 }
 
@@ -43,4 +52,15 @@ const InfoText = styled.p`
   color: #8E8E8E;
   font-size: 20px;
   line-height: 23px;
+`;
+
+const ChangeRooms = styled.button`
+  width: 182px;
+  height: 37px;
+  background: #E0E0E0;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  border: none;
+  margin: 20px 15px;
+  cursor: pointer;
 `;

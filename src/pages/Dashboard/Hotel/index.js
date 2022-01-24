@@ -14,6 +14,8 @@ export default function Hotel() {
   const [rooms, setRooms] = useState([]);
   const [ selectedRoom, setSelectedRoom ] = useState(false);
   const [bookingInfo, setBookingInfo] = useState({});
+  const [isEditing, setIsEditing] = useState(false);
+  const [bookedRoom, setBookedRoom] = useState(false);
 
   function getBooking() {
     hotel.getBooking()
@@ -37,15 +39,17 @@ export default function Hotel() {
       .catch(err => console.log(err));
   }, []);
 
-  console.log(hotels); // remover depois
-  console.log(rooms); // remover depois
-
   function selectAHotel(id) {
     setSelectedHotel(id);
     hotel.listRooms(id)
       .then(res => 
         setRooms(res.data))
       .catch(err => console.log(err)); 
+  }
+
+  function bookARoom(id) {
+    hotel.saveBooking(id);
+    setIsEditing((prev) => !prev);
   }
 
   return (
@@ -57,7 +61,7 @@ export default function Hotel() {
           : !ticketInfo.hasHotel ?
             <ForbidText>Sua modalidade de ingresso não inclui hospedagem
               <br/>Prossiga para a escolha de atividades</ForbidText>
-            : Object.keys(bookingInfo).length === 0 ?
+            : Object.keys(bookingInfo).length === 0 || isEditing ?
               (<><ContainerHotels>{hotels?.map((hotel) => 
                 <HotelOption
                   id={hotel.id}
@@ -72,31 +76,17 @@ export default function Hotel() {
                   <p className="subtitles">Vagas disponíveis:</p>
                   <p className="values">{hotel.vacancies}</p>
                 </HotelOption>
-              )}</ContainerHotels>
-              <ContainerRooms>
-                {rooms?.map((room) => <Rooms selectedRoom = {selectedRoom} setSelectedRoom = {setSelectedRoom} room = {room}/> )}
-              </ContainerRooms></>)
-              :  <SelectionOverview booking={bookingInfo} HotelOption={HotelOption}/>
+              )}</ContainerHotels>   
+              {rooms.length > 0 ? <RoomMessage>Ótima pedida! Agora escolha seu quarto</RoomMessage> : ""}           
+              <ContainerRooms>                
+                {rooms?.map((room) => <Rooms selectedRoom = {selectedRoom} setSelectedRoom = {setSelectedRoom} room = {room} bookedRoom={bookedRoom}/> )}
+              </ContainerRooms>{rooms.length > 0 ? <ChangeRooms onClick={() => bookARoom(selectedRoom)}>RESERVAR QUARTO</ChangeRooms> : ""}</>)
+              
+              :  <SelectionOverview booking={bookingInfo} HotelOption={HotelOption} setIsEditing={setIsEditing} setBookedRoom={setBookedRoom} setSelectedRoom = {setSelectedRoom} selectedRoom ={selectedRoom}/>
       }
     </>
   );
 }
-
-/*
- <>
-      <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-      {
-        ticketInfo.hasHotel ?
-          <span>COMPONENTE SELECT HOTEL AQUI</span> 
-          : Object.keys(ticketInfo).length === 0 ?
-            <ForbidText>Você precisa ter confirmado pagamento antes de fazer a escolha de hospedagem</ForbidText>
-            : ticketInfo.hasHotel ?
-              <span>HOTEL COMPONENT AQUI</span>
-              : <ForbidText>Sua modalidade de ingresso não inclui hospedagem
-                <br/>Prossiga para a escolha de atividades</ForbidText>
-      }
-    </>
-*/
 
 const StyledTypography = styled(Typography)`
   margin-bottom: 20px!important;
@@ -145,9 +135,30 @@ const HotelTypes = styled.div`
   display: flex;
 `;
 
+const RoomMessage = styled.h1`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 23px;
+  color: #8E8E8E;
+  margin: 25px 12px;
+`;
+
 const ContainerRooms = styled.div`
   height: auto;
   margin-top: 20px;
   display: flex;
   flex-wrap: wrap;
+`;
+
+const ChangeRooms = styled.button`
+  width: 182px;
+  height: 37px;
+  background: #E0E0E0;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  border: none;
+  margin: 20px 15px;
+  cursor: pointer;
 `;
