@@ -1,25 +1,19 @@
+import { useContext } from "react";
+import TicketContext from "../../../contexts/TicketContext";
 import styled from "styled-components";
-import { useEffect } from "react";
-import useApi from "../../../hooks/useApi";
 import InfoText from "./InfoText";
 import { TicketCard, Name, Value } from "../Tickets/Ticket";
 
-export default function TicketResume({ ticketInfo, setTicketInfo }) {
-  const { ticket } = useApi();
-
-  useEffect(() => {
-    ticket.getTicketFromUser()
-      .then((response) => setTicketInfo(response.data))
-      .catch((err) => alert(err));
-  }, []);
+export default function TicketResume() {
+  const { ticketData } = useContext(TicketContext);
 
   return (
     <>
       <InfoText>Ingresso escolhido</InfoText>
-      <StyledTicket>
-        <Name>{ticketInfo.ticketsTypeId?.name.concat(ticketInfo?.hasHotel ? " + Com Hotel" : "")}</Name>
-        <Value>R$ {Number(ticketInfo.value)}</Value>
-      </StyledTicket>
+      {ticketData && <StyledTicket>
+        <Name>{ticketData.ticketsTypeId?.name.concat(ticketData?.hasHotel ? " + Com Hotel" : "")}</Name>
+        <Value>R$ {Number(ticketData.value)}</Value>
+      </StyledTicket>}
     </>
   );
 }

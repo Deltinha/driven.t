@@ -14,7 +14,7 @@ import Checkout from "./Checkout";
 
 export default function Payment() {
   const { enrollment, ticket } = useApi();
-  const { ticketData } = useContext(TicketContext);
+  const { ticketData, setTicketData } = useContext(TicketContext);
 
   const [ticketsTypes, setTicketsTypes] = useState([]);
   const [enrollmentInfo, setEnrollmentInfo] = useState("");
@@ -22,13 +22,27 @@ export default function Payment() {
   const match = useRouteMatch();
 
   useEffect(() => {
+    const { ticketInfo } = ticketData;
+    if (ticketInfo?.hasOwnProperty("hasHotel")) {
+      setTicketData({});
+    }
+
     enrollment.getPersonalInformations()
       .then(res => {
         setEnrollmentInfo(res.data);
 
-        ticket.getTicketsTypes()
-          .then(res => setTicketsTypes(res.data))
-          .catch(err => console.log(err));
+        ticket.getTicketFromUser()
+          .then((response) => {
+            if (response.data) {
+              setTicketData(response.data);
+              return history.push(`${match.path}/checkout`);
+            };
+
+            ticket.getTicketsTypes()
+              .then(res => setTicketsTypes(res.data))
+              .catch(err => console.log(err));
+          })
+          .catch((error) => toast(error.response.data.message));
       })
       .catch(err => console.log(err));
   }, []);
@@ -51,6 +65,12 @@ export default function Payment() {
 
     ticket.createTicket(body)
       .then(() => {
+        setTicketData({
+          ...body,
+          ticketsTypeId: {
+            name: ticketInfo.name
+          },
+        });
         toast("Ingresso reservado com sucesso!");
         history.push(`${match.path}/checkout`);
       })
