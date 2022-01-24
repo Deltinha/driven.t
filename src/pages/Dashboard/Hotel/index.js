@@ -24,8 +24,6 @@ export default function Hotel() {
       .catch(err => console.error(err));
   }
 
-  console.log(bookingInfo);
-
   useEffect(() => {
     ticket.getTicketFromUser()
       .then(res => 
@@ -61,7 +59,7 @@ export default function Hotel() {
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
       {
-        Object.keys(ticketInfo).length === 0 ?
+        Object.keys(ticketInfo).length === 0 || !ticketInfo.isPaid ?
           <ForbidText>Você precisa ter confirmado pagamento antes de fazer a escolha de hospedagem</ForbidText>
           : !ticketInfo.hasHotel ?
             <ForbidText>Sua modalidade de ingresso não inclui hospedagem
