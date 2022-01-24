@@ -24,6 +24,8 @@ export default function Hotel() {
       .catch(err => console.error(err));
   }
 
+  console.log(bookingInfo);
+
   useEffect(() => {
     ticket.getTicketFromUser()
       .then(res => 
@@ -34,6 +36,10 @@ export default function Hotel() {
       .then(res => 
         setHotels(res.data)) 
       .catch(err => console.log(err));
+    if(isEditing) {
+      setSelectedHotel(bookingInfo.hotelId);
+    }
+    selectAHotel(bookingInfo.hotelId);
   }, [isEditing]);
 
   function selectAHotel(id) {
@@ -78,7 +84,7 @@ export default function Hotel() {
               )}</ContainerHotels>   
               {rooms.length > 0 ? <RoomMessage>Ótima pedida! Agora escolha seu quarto</RoomMessage> : ""}           
               <ContainerRooms>                
-                {rooms?.map((room) => <Rooms selectedRoom = {selectedRoom} setSelectedRoom = {setSelectedRoom} room = {room} bookedRoom={bookedRoom}/> )}
+                {rooms?.map((room) => <Rooms selectedRoom = {selectedRoom} setSelectedRoom = {setSelectedRoom} room = {room} bookedRoom={bookedRoom} rooms={rooms}/> )}
               </ContainerRooms>{rooms.length > 0 ? <ChangeRooms onClick={() => bookARoom(selectedRoom)}>RESERVAR QUARTO</ChangeRooms> : ""}</>)              
               :  <SelectionOverview booking={bookingInfo} HotelOption={HotelOption} setIsEditing={setIsEditing} setBookedRoom={setBookedRoom} setSelectedRoom = {setSelectedRoom} selectedRoom ={selectedRoom}/>
       }

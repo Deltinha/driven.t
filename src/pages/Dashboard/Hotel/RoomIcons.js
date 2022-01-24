@@ -1,7 +1,7 @@
 import { IoPersonSharp, IoPersonOutline } from "react-icons/io5";
 import { useState, useEffect } from "react";
 
-export default function RoomIcons({ maxOccupation, occupied, hotelId, selectedRoom, room, bookedRoom }) {
+export default function RoomIcons({ maxOccupation, occupied, hotelId, selectedRoom, room, bookedRoom, rooms }) {
   const [arrIcons, setArrIcons] = useState([]);
 
   function renderIcons() {
@@ -33,7 +33,7 @@ export default function RoomIcons({ maxOccupation, occupied, hotelId, selectedRo
     setArrIcons(newArr);
   }
 
-  useEffect(() => renderIcons(), [hotelId, selectedRoom]);
+  useEffect(() => renderIcons(), [hotelId, selectedRoom, rooms]);
 
   return(<>{arrIcons.map((icon, index) => icon === 0 ? 
     <IoPersonOutline index={index} size={20}/> : 
