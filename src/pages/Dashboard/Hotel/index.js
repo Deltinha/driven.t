@@ -1,11 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Typography } from "@material-ui/core";
 import useApi from "../../../hooks/useApi";
 import ForbidText from "../../../components/ForbidText";
 import Rooms from "./Rooms";
 import SelectionOverview from "./SelectionOverview";
-import TicketContext from "../../../contexts/TicketContext";
 
 export default function Hotel() {
   const [ticketInfo, setTicketInfo] = useState({});
@@ -17,7 +16,6 @@ export default function Hotel() {
   const [bookingInfo, setBookingInfo] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [bookedRoom, setBookedRoom] = useState(false);
-  const { ticketData } = useContext(TicketContext);
 
   function getBooking() {
     hotel.getBooking()
@@ -61,7 +59,7 @@ export default function Hotel() {
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
       {
-        Object.keys(ticketInfo).length === 0 || !ticketData.isPaid ?
+        Object.keys(ticketInfo).length === 0 || !ticketInfo.isPaid ?
           <ForbidText>Você precisa ter confirmado pagamento antes de fazer a escolha de hospedagem</ForbidText>
           : !ticketInfo.hasHotel ?
             <ForbidText>Sua modalidade de ingresso não inclui hospedagem
