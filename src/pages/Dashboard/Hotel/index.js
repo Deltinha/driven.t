@@ -17,6 +17,8 @@ export default function Hotel() {
   const [isEditing, setIsEditing] = useState(false);
   const [bookedRoom, setBookedRoom] = useState(false);
 
+  console.log(selectedRoom, bookingInfo);
+
   function getBooking() {
     hotel.getBooking()
       .then(res =>
@@ -29,15 +31,13 @@ export default function Hotel() {
       .then(res => 
         setTicketInfo(res.data))
       .catch(err => console.error(err));
+    console.log(isEditing, "aqui");
     getBooking();
-  }, []);
-
-  useEffect(() => {
     hotel.listAll()
       .then(res => 
         setHotels(res.data)) 
       .catch(err => console.log(err));
-  }, []);
+  }, [isEditing]);
 
   function selectAHotel(id) {
     setSelectedHotel(id);
@@ -48,8 +48,10 @@ export default function Hotel() {
   }
 
   function bookARoom(id) {
-    hotel.saveBooking(id);
-    setIsEditing((prev) => !prev);
+    hotel.saveBooking(id)
+      .then(() => getBooking())
+      .catch(err => console.log(err));
+    setIsEditing(false);
   }
 
   return (
@@ -80,8 +82,7 @@ export default function Hotel() {
               {rooms.length > 0 ? <RoomMessage>Ótima pedida! Agora escolha seu quarto</RoomMessage> : ""}           
               <ContainerRooms>                
                 {rooms?.map((room) => <Rooms selectedRoom = {selectedRoom} setSelectedRoom = {setSelectedRoom} room = {room} bookedRoom={bookedRoom}/> )}
-              </ContainerRooms>{rooms.length > 0 ? <ChangeRooms onClick={() => bookARoom(selectedRoom)}>RESERVAR QUARTO</ChangeRooms> : ""}</>)
-              
+              </ContainerRooms>{rooms.length > 0 ? <ChangeRooms onClick={() => bookARoom(selectedRoom)}>RESERVAR QUARTO</ChangeRooms> : ""}</>)              
               :  <SelectionOverview booking={bookingInfo} HotelOption={HotelOption} setIsEditing={setIsEditing} setBookedRoom={setBookedRoom} setSelectedRoom = {setSelectedRoom} selectedRoom ={selectedRoom}/>
       }
     </>

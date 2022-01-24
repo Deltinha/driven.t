@@ -5,8 +5,6 @@ export default function SelectionOverview({ booking, HotelOption, setIsEditing, 
   const [roomNumberText, setRoomNumberText] = useState("");
   const [pplInRoomText, setPplInRoomText] = useState("");
 
-  console.log(booking);
-
   useEffect(() => {
     const occupationText = {
       1: "(Single)",
@@ -24,7 +22,7 @@ export default function SelectionOverview({ booking, HotelOption, setIsEditing, 
     setPplInRoomText(`Você ${pplText[booking.roomCurOccupation]}`);
     setBookedRoom(booking.id);
     setSelectedRoom(booking.id);
-  }, [selectedRoom]);
+  }, [selectedRoom, booking]);
 
   function deleteBookingInfo() {
     setIsEditing((prev) => !prev);

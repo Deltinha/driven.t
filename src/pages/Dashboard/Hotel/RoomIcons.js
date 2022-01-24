@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 export default function RoomIcons({ maxOccupation, occupied, hotelId, selectedRoom, room, bookedRoom }) {
   const [arrIcons, setArrIcons] = useState([]);
 
-  console.log(room.id, "rkjnsrkjv");
-
   function renderIcons() {
     let isAdded = false;
     let newArr = [];
@@ -37,8 +35,8 @@ export default function RoomIcons({ maxOccupation, occupied, hotelId, selectedRo
 
   useEffect(() => renderIcons(), [hotelId, selectedRoom]);
 
-  return(<>{arrIcons.map((icon) => icon === 0 ? 
-    <IoPersonOutline size={20}/> : 
+  return(<>{arrIcons.map((icon, index) => icon === 0 ? 
+    <IoPersonOutline index={index} size={20}/> : 
     icon === 1 ? <IoPersonSharp size={20}/> :
       <IoPersonSharp size={20} color={"#FF4791"}/>)}</>    
   );
