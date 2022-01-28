@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Activity from "./Activity";
 
 export default function LocalActivities({ activities, laterActivityHour }) {
+  console.log(activities, laterActivityHour);
   return (
     <ActivitiesList height={(90 / 60) * (laterActivityHour - 9 * 60)}>
       {activities.map((activity, index) => 
