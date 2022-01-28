@@ -4,7 +4,8 @@ import useApi from "../../../hooks/useApi";
 import { toast } from "react-toastify";
 
 import ActivitiesBox from "../../../components/Activities/ActivitiesBox";
-import Local from "../../../components/Activities/Local";
+import LocalsNames from "../../../components/Activities/LocalsNames";
+import ActivitiesBoard from "../../../components/Activities/ActivitiesBoard";
 
 export default function Activities() {
   const { activity } = useApi();
@@ -25,13 +26,8 @@ export default function Activities() {
 
   return (
     <ActivitiesBox>
-      {locals?.map((local, index) => 
-        <Local
-          key={index}
-          local={local}
-          activities={activities.filter((activity) => activity.local.id === local.id)}
-        />
-      )}
+      <LocalsNames locals={locals} />
+      <ActivitiesBoard locals={locals} activities={activities} />
     </ActivitiesBox>
   );
 }
