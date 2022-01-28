@@ -9,7 +9,7 @@ import ActivitiesBox from "../../../components/Activities/ActivitiesBox";
 import LocalsNames from "../../../components/Activities/LocalsNames";
 import ActivitiesBoard from "../../../components/Activities/ActivitiesBoard";
 import { StyledTypography } from "../../../components/PagesTitle";
-import getWeekdayName from "../../../components/Activities/utils/functions";
+import { formatDate, getWeekdayName, removeDuplicatedObjectsFromArray } from "../../../components/Activities/utils/functions";
 import DaysButton from "../../../components/Activities/DaysButton";
 
 export default function Activities() {
@@ -31,24 +31,12 @@ export default function Activities() {
     const weekdayNames = activities.map(activity => {
       return {
         name: getWeekdayName(dayjs(activity.date).day()),
-        date: `${dayjs(activity.date).date()}/${dayjs(activity.date).month() < 10 ? "0" + dayjs(activity.date).month() : dayjs(activity.date).month()}`
+        date: formatDate(activity.date),
       };
     });
-    setWeekdays(handleDuplicates(weekdayNames, "date"));
-  }
 
-  function handleDuplicates(a, b) {
-    const withoutDuplicates = {};
-
-    for (const item of a) {
-      const date = item[b];
-
-      if (!withoutDuplicates[date]) {
-        withoutDuplicates[date] = item;
-      }
-    }
-
-    return Object.values(withoutDuplicates);
+    const weekdaysWithouDuplicatedObjects = removeDuplicatedObjectsFromArray(weekdayNames, "date");
+    setWeekdays(weekdaysWithouDuplicatedObjects);
   }
 
   useEffect(() => {
@@ -83,7 +71,7 @@ export default function Activities() {
       <ActivitiesBoard 
         locals={locals} 
         activities={activities}
-        weekdays={weekdays} 
+        currentDay={selectedDay}
       />
     </ActivitiesBox>
   );

@@ -9,7 +9,7 @@ export default function DaysButton({ weekday, selectDay, isSelected }) {
 }
 
 const Button = styled.button`
-  background-color: ${({ selected }) => selected ? "blue" : "#E0E0E0"};
+  background-color: ${({ selected }) => selected ? "#FFD37D" : "#E0E0E0"};
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
   border-radius: 4px;
   border: 0;

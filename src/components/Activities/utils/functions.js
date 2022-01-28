@@ -1,4 +1,6 @@
-export default function getWeekdayName(weekday) {
+import dayjs from "dayjs";
+
+export function getWeekdayName(weekday) {
   switch (weekday) {
   case 0:
     return "Domingo";
@@ -19,4 +21,23 @@ export default function getWeekdayName(weekday) {
   default:  
     break;
   }
+}
+
+//format to DD/MM style. 
+export function formatDate(date) {
+  return `${dayjs(date).date()}/${dayjs(date).month() < 10 ? "0" + (dayjs(date).month()+1) : (dayjs(date).month()+1)}`;
+}
+
+export function removeDuplicatedObjectsFromArray(array, prop) {
+  const hash = {};
+
+  for (const item of array) {
+    const date = item[prop];
+
+    if (!hash[date]) {
+      hash[date] = item;
+    }
+  }
+
+  return Object.values(hash);
 }

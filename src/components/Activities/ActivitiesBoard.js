@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 
 import LocalActivities from "./LocalActivities";
 
-export default function ActivitiesBoard({ locals, activities, weekdays }) {
+export default function ActivitiesBoard({ locals, activities, weekdays, currentDay }) {
   function getLaterActivityEndHour() {
     const activitiesEndsHour = activities.map((activity) => {
       const activityEnd = dayjs(activity?.date).add(activity.duration, "minutes");
@@ -21,6 +21,7 @@ export default function ActivitiesBoard({ locals, activities, weekdays }) {
           activities={activities.filter((activity) => activity.local.id === local.id)}
           laterActivityHour={getLaterActivityEndHour()}
           weekdays={weekdays}
+          currentDay={currentDay}
         />
       )}
     </Container>
