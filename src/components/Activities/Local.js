@@ -11,7 +11,6 @@ export default function Local({ local, activities }) {
           <Activity
             key={index}
             activityInfo={activity}
-            nextActivityDate={activities[index + 1]?.date}
           />
         )}
       </ActivitiesList>

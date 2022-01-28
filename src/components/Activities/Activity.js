@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import dayjs from "dayjs";
 
-export default function Activity({ activityInfo, nextActivityDate }) {
+export default function Activity({ activityInfo }) {
   function printActivityDuration() {
     const activityDate = dayjs(activityInfo?.date);
     const init = activityDate.format("HH:mm");
@@ -10,17 +10,16 @@ export default function Activity({ activityInfo, nextActivityDate }) {
     return `${init} - ${end}`;
   }
 
-  function checkActivitySequence() {
-    if (!nextActivityDate) return false;
-    const activityEnd = dayjs(activityInfo?.date).add(activityInfo.duration, "minute").hour();
-    const nextActivityStart = dayjs(nextActivityDate).hour();
+  function convertStartToMinutes() {
+    const day = dayjs(activityInfo?.date);
+    const startHourToMinutes = (day.hour() * 60) - 9 * 60;
+    const startMinutes = day.minute();
 
-    if (activityEnd === nextActivityStart) return true;
-    return false;
+    return startHourToMinutes + startMinutes;
   }
 
   return (
-    <ActivityCard height={(80 / 60) * activityInfo.duration} position={(dayjs(activityInfo?.date).hour() - 9) * 80} sequenceActivity={checkActivitySequence()}>
+    <ActivityCard height={(90 / 60) * activityInfo.duration} position={convertStartToMinutes() * (90 / 60)}>
       <Title>
         {activityInfo?.name}
       </Title>
@@ -33,7 +32,7 @@ export default function Activity({ activityInfo, nextActivityDate }) {
 
 const ActivityCard = styled.li`
     width: calc(100% - 20px);
-    height: ${({ height, sequenceActivity }) => sequenceActivity ? height - 10 : height}px;
+    height: ${({ height }) => height - 10}px;
     padding: 10px;
     background-color: #f1f1f1;
     border-radius: 5px;
