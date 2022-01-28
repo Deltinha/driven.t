@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import useApi from "../../../hooks/useApi";
 
 import { toast } from "react-toastify";
+import dayjs from "dayjs";
 
 import ActivitiesBox from "../../../components/Activities/ActivitiesBox";
 import LocalsNames from "../../../components/Activities/LocalsNames";
 import ActivitiesBoard from "../../../components/Activities/ActivitiesBoard";
+import { StyledTypography } from "../../../components/PagesTitle";
 
 export default function Activities() {
   const { activity } = useApi();
@@ -26,6 +28,7 @@ export default function Activities() {
 
   return (
     <ActivitiesBox>
+      <StyledTypography variant="h4">Escolha de atividades</StyledTypography>
       <LocalsNames locals={locals} />
       <ActivitiesBoard locals={locals} activities={activities} />
     </ActivitiesBox>
