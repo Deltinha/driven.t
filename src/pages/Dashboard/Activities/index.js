@@ -57,6 +57,11 @@ export default function Activities() {
   return (
     <ActivitiesBox>
       <StyledTypography variant="h4">Escolha de atividades</StyledTypography>
+
+      {!selectedDay 
+        ? <InfoText>Primeiro, filtre pelo dia do evento</InfoText>
+        : ""
+      }
       
       <ButtonsDiv>
         {weekdays.map(weekday => (
@@ -68,7 +73,7 @@ export default function Activities() {
       </ButtonsDiv>
       
       {!selectedDay 
-        ? "Primeiro filtre pelo dia do evento"
+        ? ""
         : (
           <>
             <LocalsNames locals={locals} />
@@ -93,4 +98,11 @@ const ButtonsDiv = styled.div`
   @media (max-width: 600px) {
     justify-content: space-evenly;
   }
+`;
+
+const InfoText = styled.span`
+  color: #8E8E8E;
+  font-size: 20px;
+  display: block;
+  margin-bottom: 20px;
 `;
