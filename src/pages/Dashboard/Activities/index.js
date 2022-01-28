@@ -14,11 +14,18 @@ import DaysButton from "../../../components/Activities/DaysButton";
 
 export default function Activities() {
   const { activity } = useApi();
+  const [selectedDay, setSelectedDay] = useState("");
   const [weekdays, setWeekdays] = useState([]);
   const [locals, setLocals] = useState([]);
   const [activities, setActivities] = useState([]);
 
-  /* console.log(dayjs(activities[0]?.date).date() + "/" + dayjs(activities[0]?.date).month()); */
+  function selectDay(date) {
+    if (selectedDay === date) {
+      setSelectedDay(false);
+    } else {
+      setSelectedDay(date);
+    }
+  }
 
   function handleWeekdays(activities) {
     const weekdayNames = activities.map(activity => {
@@ -59,16 +66,19 @@ export default function Activities() {
       .catch((error) => toast(error.response.data.message));
   }, []);
 
-  console.log(weekdays);
-
   return (
     <ActivitiesBox>
       <StyledTypography variant="h4">Escolha de atividades</StyledTypography>
+      
       <ButtonsDiv>
         {weekdays.map(weekday => (
-          <DaysButton weekday={weekday} />
+          <DaysButton
+            isSelected={selectedDay === weekday?.date}
+            selectDay={selectDay} 
+            weekday={weekday} />
         ))}
       </ButtonsDiv>
+
       <LocalsNames locals={locals} />
       <ActivitiesBoard 
         locals={locals} 
@@ -88,14 +98,4 @@ const ButtonsDiv = styled.div`
   @media (max-width: 600px) {
     justify-content: space-evenly;
   }
-`;
-
-const Button = styled.button`
-  background-color: #E0E0E0;
-box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
-border-radius: 4px;
-border: 0;
-width: 131px;
-height: 37px;
-cursor: pointer;
 `;
