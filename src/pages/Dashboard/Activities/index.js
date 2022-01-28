@@ -66,13 +66,20 @@ export default function Activities() {
             weekday={weekday} />
         ))}
       </ButtonsDiv>
-
-      <LocalsNames locals={locals} />
-      <ActivitiesBoard 
-        locals={locals} 
-        activities={activities}
-        currentDay={selectedDay}
-      />
+      
+      {!selectedDay 
+        ? "Primeiro filtre pelo dia do evento"
+        : (
+          <>
+            <LocalsNames locals={locals} />
+            <ActivitiesBoard 
+              locals={locals} 
+              activities={activities}
+              currentDay={selectedDay}
+            />
+          </>
+        )
+      }
     </ActivitiesBox>
   );
 }
