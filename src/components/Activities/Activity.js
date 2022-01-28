@@ -32,19 +32,21 @@ export default function Activity({ activityInfo, nextActivityDate }) {
           {printActivityDuration()}
         </p>
       </ActivityText>
-      <VacancyInfo freeSpots={freeSpots}>
-        {freeSpots > 0 ?
-          (<>
-            <BiLogIn />
-            {freeSpots === 1 ?
-              <span>{freeSpots} vaga</span>
-              : <span>{freeSpots} vagas</span>}
-          </>)
-          : (
-            <>
-              <AiOutlineCloseCircle />
-              <span>Esgotado</span></>
-          )}
+      <VacancyInfo>
+        <ReserveButton freeSpots={freeSpots}>
+          {freeSpots > 0 ?
+            (<>
+              <BiLogIn />
+              {freeSpots === 1 ?
+                <span>{freeSpots} vaga</span>
+                : <span>{freeSpots} vagas</span>}
+            </>)
+            : (
+              <>
+                <AiOutlineCloseCircle />
+                <span>Esgotado</span></>
+            )}
+        </ReserveButton>
       </VacancyInfo>
     </ActivityCard>
   );
@@ -71,16 +73,23 @@ const ActivityText = styled.div`
 
 const VacancyInfo = styled.div`
   display: flex;
-  flex-direction: column;
-  color: ${({ freeSpots }) => freeSpots > 0 ? "#078632" : "#CC6666"};
   justify-content: center;
   align-items: center;
   border-left: 1px #CFCFCF solid;
   padding-left: 10px;
-  gap: 5px;
-  cursor: ${({ freeSpots }) => freeSpots > 0 ? "pointer" : "default"};;
   
-  > svg {
+`;
+
+const ReserveButton = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  cursor: ${({ freeSpots }) => freeSpots > 0 ? "pointer" : "default"};
+  color: ${({ freeSpots }) => freeSpots > 0 ? "#078632" : "#CC6666"};
+
+  svg {
     font-size: 25px;
     position: relative;
     left: ${({ freeSpots }) => freeSpots > 0 ? "-4px" : "0px"};;
