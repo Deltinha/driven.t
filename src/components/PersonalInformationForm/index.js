@@ -293,5 +293,10 @@ const SubmitContainer = styled.div`
 
   > button {
     margin-top: 0 !important;
+    width: calc(100% - 150px);
+  }
+
+  @media (max-width: 600px) {
+    text-align: center;
   }
 `;
