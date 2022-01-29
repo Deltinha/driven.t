@@ -9,7 +9,7 @@ import ActivitiesBox from "../../../components/Activities/ActivitiesBox";
 import LocalsNames from "../../../components/Activities/LocalsNames";
 import ActivitiesBoard from "../../../components/Activities/ActivitiesBoard";
 import { StyledTypography } from "../../../components/PagesTitle";
-import { formatDate, getWeekdayName, removeDuplicatedObjectsFromArray } from "../../../components/Activities/utils/functions";
+import { formatDate, getWeekdayName, removeDuplicatedObjectsFromArray, sortDays } from "../../../components/Activities/utils/functions";
 import DaysButton from "../../../components/Activities/DaysButton";
 
 export default function Activities() {
@@ -64,7 +64,7 @@ export default function Activities() {
       }
       
       <ButtonsDiv>
-        {weekdays.map(weekday => (
+        {sortDays(weekdays).map(weekday => (
           <DaysButton
             isSelected={selectedDay === weekday?.date}
             selectDay={selectDay} 

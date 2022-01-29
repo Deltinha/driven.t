@@ -41,3 +41,16 @@ export function removeDuplicatedObjectsFromArray(array, prop) {
 
   return Object.values(hash);
 }
+
+export function sortDays(arr) {
+  const days = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+  const daysSorted = [];
+  
+  days.forEach(day => {
+    arr.forEach(e => {
+      if (e.name === day) daysSorted.push(e);
+    });
+  });
+  
+  return daysSorted;
+}
