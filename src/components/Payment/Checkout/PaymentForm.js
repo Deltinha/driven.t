@@ -43,6 +43,7 @@ export default function PaymentForm({ number, setNumber, name, setName, expiry, 
               value={expiry}
               mask={"99/99"}
               label="Validade"
+              placeholder="MM/AA"
               onChange={(event) => setExpiry(event.target.value)}
               required
             />
