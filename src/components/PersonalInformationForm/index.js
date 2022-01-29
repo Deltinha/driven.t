@@ -136,7 +136,7 @@ export default function PersonalInformationForm() {
       });
     }
   };
-
+  
   return (
     <>
       <StyledTypography variant="h4">Suas Informações</StyledTypography>
@@ -203,13 +203,14 @@ export default function PersonalInformationForm() {
             />
             {errors.cep && <ErrorMsg>{errors.cep}</ErrorMsg>}
           </InputWrapper>
-          <InputWrapper>
+          <InputWrapper >
             <Select
               label="Estado"
               name="state"
               id="state"
               value={data.state || ""}
               onChange={handleChange("state")}
+              isHidden={data.cep.length !== 9 && true}
             >
               <MenuItem value="">
                 <em>None</em>
@@ -223,7 +224,7 @@ export default function PersonalInformationForm() {
             {errors.state && <ErrorMsg>{errors.state}</ErrorMsg>}
           </InputWrapper>
 
-          <InputWrapper>
+          <InputWrapper isHidden={data.cep.length !== 9 && true}>
             <Input
               label="Cidade"
               name="city"
@@ -233,7 +234,7 @@ export default function PersonalInformationForm() {
             />
             {errors.city && <ErrorMsg>{errors.city}</ErrorMsg>}
           </InputWrapper>
-          <InputWrapper>
+          <InputWrapper isHidden={data.cep.length !== 9 && true}>
             <Input
               label="Rua"
               name="street"
@@ -244,7 +245,7 @@ export default function PersonalInformationForm() {
             {errors.street && <ErrorMsg>{errors.street}</ErrorMsg>}
           </InputWrapper>
 
-          <InputWrapper>
+          <InputWrapper isHidden={data.cep.length !== 9 && true}>
             <Input
               label="Número"
               name="number"
@@ -253,7 +254,7 @@ export default function PersonalInformationForm() {
             />
             {errors.number && <ErrorMsg>{errors.number}</ErrorMsg>}
           </InputWrapper>
-          <InputWrapper>
+          <InputWrapper isHidden={data.cep.length !== 9 && true}>
             <Input
               label="Bairro"
               name="neighborhood"
@@ -263,7 +264,7 @@ export default function PersonalInformationForm() {
             />
             {errors.neighborhood && <ErrorMsg>{errors.neighborhood}</ErrorMsg>}
           </InputWrapper>
-          <InputWrapper>
+          <InputWrapper isHidden={data.cep.length !== 9 && true}>
             <Input
               label="Complemento"
               name="addressDetail"
