@@ -13,8 +13,8 @@ export default function Activity({ activityInfo, nextActivityDate }) {
   const { freeSpots } = activityInfo;
   const [isSignedUp, setIsSignedUp] = useState(false);
   const activityId = activityInfo.id;
-  const { activity } = useApi();
-  const { ticketData } = useContext(TicketContext);
+  const { activity, ticket } = useApi();
+  const { ticketData, setTicketData } = useContext(TicketContext);
 
   useEffect(() => {
     setIsSignedUp(ticketData.activities.some((act) => act.id === activityInfo.id));
@@ -38,7 +38,11 @@ export default function Activity({ activityInfo, nextActivityDate }) {
 
   function signUpToActivity() {
     activity.signUp(activityId)
-      .then((res) => setIsSignedUp(true))
+      .then((res) => {
+        setIsSignedUp(true);
+        ticket.getTicketFromUser()
+          .then((res) => setTicketData(res?.data));
+      })
       .catch(res => toast(res.response?.data.message));
   }
 
