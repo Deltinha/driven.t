@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import useApi from "../../../hooks/useApi";
 
 import { toast } from "react-toastify";
@@ -11,13 +11,15 @@ import ActivitiesBoard from "../../../components/Activities/ActivitiesBoard";
 import { StyledTypography } from "../../../components/PagesTitle";
 import { formatDate, getWeekdayName, removeDuplicatedObjectsFromArray, sortDays } from "../../../components/Activities/utils/functions";
 import DaysButton from "../../../components/Activities/DaysButton";
+import TicketContext from "../../../contexts/TicketContext";
 
 export default function Activities() {
-  const { activity } = useApi();
+  const { activity, ticket } = useApi();
   const [selectedDay, setSelectedDay] = useState("");
   const [weekdays, setWeekdays] = useState([]);
   const [locals, setLocals] = useState([]);
   const [activities, setActivities] = useState([]);
+  const { setTicketData } = useContext(TicketContext);
 
   function selectDay(date) {
     if (selectedDay === date) {
@@ -52,6 +54,13 @@ export default function Activities() {
           .catch((error) => toast(error.response.data.message));
       })
       .catch((error) => toast(error.response.data.message));
+
+    ticket.getTicketFromUser()
+      .then((response) => {
+        if (response.data) {
+          setTicketData(response.data);
+        };
+      });
   }, []);
 
   return (

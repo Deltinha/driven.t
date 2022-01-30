@@ -17,4 +17,12 @@ export default class ActivityApi extends AuthenticatedApi {
       }
     });
   }
+
+  signUp(activityId) {
+    return api.post(`/activities/sign-up/${ activityId }`, [], {
+      headers: {
+        ...this.getAuthorizationHeader()
+      }
+    });
+  }
 }
