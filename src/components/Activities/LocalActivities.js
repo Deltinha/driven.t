@@ -14,7 +14,6 @@ export default function LocalActivities({ activities, laterActivityHour, current
   function getActivitiesOfDay(activities) {
     setActivitiesOfDay([]);
     const currentActivities = [];
-
     activities.forEach((activity) => {
       if (formatDate(activity.date) === currentDay) {
         currentActivities.push(activity);
@@ -27,8 +26,9 @@ export default function LocalActivities({ activities, laterActivityHour, current
     <ActivitiesList height={(90 / 60) * (laterActivityHour - 9 * 60)}>
       {activitiesOfDay?.map((activity, index) => 
         <Activity
-          key={index}
+          key={activity.id}
           activityInfo={activity}
+          currentDay={currentDay}
         />
       )}
     </ActivitiesList>
