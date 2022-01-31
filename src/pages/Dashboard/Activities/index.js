@@ -15,7 +15,7 @@ import TicketContext from "../../../contexts/TicketContext";
 import ForbidText from "../../../components/ForbidText";
 
 export default function Activities() {
-  const { activity, ticket, hotel } = useApi();
+  const { activity, ticket } = useApi();
   const [selectedDay, setSelectedDay] = useState("");
   const [weekdays, setWeekdays] = useState([]);
   const [locals, setLocals] = useState([]);
@@ -80,14 +80,14 @@ export default function Activities() {
           : ""
       }
       
-      <ButtonsDiv>
+      {!selectedDay ? <ButtonsDiv>
         {sortDays(weekdays).map(weekday => (
           <DaysButton
             isSelected={selectedDay === weekday?.date}
             selectDay={selectDay} 
             weekday={weekday} />
         ))}
-      </ButtonsDiv>
+      </ButtonsDiv> : ""}
       
       {!selectedDay 
         ? ""
