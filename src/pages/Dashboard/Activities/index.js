@@ -80,14 +80,14 @@ export default function Activities() {
           : ""
       }
       
-      {!selectedDay ? <ButtonsDiv>
+      {!selectedDay ? "" : <ButtonsDiv>
         {sortDays(weekdays).map(weekday => (
           <DaysButton
             isSelected={selectedDay === weekday?.date}
             selectDay={selectDay} 
             weekday={weekday} />
         ))}
-      </ButtonsDiv> : ""}
+      </ButtonsDiv>}
       
       {!selectedDay 
         ? ""
