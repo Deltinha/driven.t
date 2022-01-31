@@ -57,7 +57,7 @@ const validations = {
 
   birthday: {
     custom: {
-      isValid: (value) => !value || !isNaN(new Date(value?.split("-").reverse().join("-"))),
+      isValid: (value) => !isNaN(new Date(value?.split("-").reverse().join("-"))),
       message: "Selecione uma data de aniversário",
     },
   },

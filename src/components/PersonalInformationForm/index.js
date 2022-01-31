@@ -62,7 +62,7 @@ export default function PersonalInformationForm() {
             toast(detail);
           }
         } else {
-          toast("Não foi possível");
+          toast(error.response.data.message);
         }
         /* eslint-disable-next-line no-console */
         console.log(error);
