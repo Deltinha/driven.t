@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { FaCheckCircle as CheckIcon } from "react-icons/fa";
 
-export default function PaidConfirmation() {
+export default function PaidConfirmation({ hasHotel }) {
   return (
     <Container>
       <CheckIcon
@@ -13,7 +13,7 @@ export default function PaidConfirmation() {
           Pagamento confirmado!
         </Confirmation>
         <NextSteps>
-          Prossiga para escolha de hospedagem e atividades
+          Prossiga para escolha de {hasHotel && "hospedagem e"} atividades
         </NextSteps>
       </TextBox>
     </Container>
