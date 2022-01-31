@@ -38,7 +38,7 @@ export default function SelectTickets({ ticketsTypes }) {
   }
 
   return (
-    <>
+    <Container>
       <InfoText>
       Primeiro, escolha sua modalidade de ingresso.
       </InfoText>
@@ -52,9 +52,18 @@ export default function SelectTickets({ ticketsTypes }) {
             isSelected={selectedItem === ticket.name}/>
         ))}
       </TicketArea>
-    </>
+    </Container>
   );
 }
+
+const Container = styled.div`
+ @media (max-width: 600px) {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   margin-top: calc(100% - 300px)
+ }
+`;
 
 const InfoText = styled.p`
   color: #8E8E8E;

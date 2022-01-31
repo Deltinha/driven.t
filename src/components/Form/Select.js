@@ -10,6 +10,10 @@ const FormControlWrapper = styled.section`
   margin-top: 8px;
   display: flex;
   flex-direction: column;
+  
+  @media (max-width: 600px) {
+    display: ${({ isHidden }) => isHidden ? "none" : ""}
+  }
 `;
 
 export default function MultiSelect({
@@ -18,12 +22,13 @@ export default function MultiSelect({
   id,
   value,
   onChange,
+  isHidden,
   children,
 }) {
   const inputLabelRef = useRef(null);
 
   return (
-    <FormControlWrapper>
+    <FormControlWrapper isHidden={isHidden}>
       <FormControl variant="outlined">
         <InputLabel ref={inputLabelRef} htmlFor={id}>
           {label}

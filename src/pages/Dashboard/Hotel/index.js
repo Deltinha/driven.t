@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Typography } from "@material-ui/core";
+import { StyledTypography } from "../../../components/PagesTitle";
 import useApi from "../../../hooks/useApi";
 import ForbidText from "../../../components/ForbidText";
 import Rooms from "./Rooms";
@@ -89,10 +89,6 @@ export default function Hotel() {
     </>
   );
 }
-
-const StyledTypography = styled(Typography)`
-  margin-bottom: 20px!important;
-`;
 
 const ContainerHotels = styled.div`
 display: flex;
