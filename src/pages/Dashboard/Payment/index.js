@@ -3,7 +3,7 @@ import { useEffect, useState, useContext } from "react";
 import { toast } from "react-toastify";
 import useApi from "../../../hooks/useApi";
 import styled from "styled-components";
-import { Typography } from "@material-ui/core";
+import { StyledTypography } from "../../../components/PagesTitle";
 import ForbidText from "../../../components/ForbidText";
 import SelectTickets from "../../../components/Payment/Tickets/SelectTickets";
 import TicketContext from "../../../contexts/TicketContext";
@@ -120,10 +120,6 @@ export default function Payment() {
     </>
   );
 }
-
-const StyledTypography = styled(Typography)`
-  margin-bottom: 20px!important;
-`;
 
 const Div = styled.div`
   margin-top: 40px;

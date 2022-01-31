@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import DateFnsUtils from "@date-io/date-fns";
-import Typography from "@material-ui/core/Typography";
 import { toast } from "react-toastify";
 import dayjs from "dayjs";
 import CustomParseFormat from "dayjs/plugin/customParseFormat";
@@ -20,6 +19,7 @@ import { InputWrapper } from "./InputWrapper";
 import { ErrorMsg } from "./ErrorMsg";
 import { ufList } from "./ufList";
 import FormValidations from "./FormValidations";
+import { StyledTypography } from "../../components/PagesTitle";
 
 dayjs.extend(CustomParseFormat);
 
@@ -62,7 +62,7 @@ export default function PersonalInformationForm() {
             toast(detail);
           }
         } else {
-          toast("Não foi possível");
+          toast(error.response.data.message);
         }
         /* eslint-disable-next-line no-console */
         console.log(error);
@@ -136,7 +136,7 @@ export default function PersonalInformationForm() {
       });
     }
   };
-
+  
   return (
     <>
       <StyledTypography variant="h4">Suas Informações</StyledTypography>
@@ -203,13 +203,14 @@ export default function PersonalInformationForm() {
             />
             {errors.cep && <ErrorMsg>{errors.cep}</ErrorMsg>}
           </InputWrapper>
-          <InputWrapper>
+          <InputWrapper >
             <Select
               label="Estado"
               name="state"
               id="state"
               value={data.state || ""}
               onChange={handleChange("state")}
+              isHidden={data.cep.length !== 9 && true}
             >
               <MenuItem value="">
                 <em>None</em>
@@ -223,7 +224,7 @@ export default function PersonalInformationForm() {
             {errors.state && <ErrorMsg>{errors.state}</ErrorMsg>}
           </InputWrapper>
 
-          <InputWrapper>
+          <InputWrapper isHidden={data.cep.length !== 9 && true}>
             <Input
               label="Cidade"
               name="city"
@@ -233,7 +234,7 @@ export default function PersonalInformationForm() {
             />
             {errors.city && <ErrorMsg>{errors.city}</ErrorMsg>}
           </InputWrapper>
-          <InputWrapper>
+          <InputWrapper isHidden={data.cep.length !== 9 && true}>
             <Input
               label="Rua"
               name="street"
@@ -244,7 +245,7 @@ export default function PersonalInformationForm() {
             {errors.street && <ErrorMsg>{errors.street}</ErrorMsg>}
           </InputWrapper>
 
-          <InputWrapper>
+          <InputWrapper isHidden={data.cep.length !== 9 && true}>
             <Input
               label="Número"
               name="number"
@@ -253,7 +254,7 @@ export default function PersonalInformationForm() {
             />
             {errors.number && <ErrorMsg>{errors.number}</ErrorMsg>}
           </InputWrapper>
-          <InputWrapper>
+          <InputWrapper isHidden={data.cep.length !== 9 && true}>
             <Input
               label="Bairro"
               name="neighborhood"
@@ -263,7 +264,7 @@ export default function PersonalInformationForm() {
             />
             {errors.neighborhood && <ErrorMsg>{errors.neighborhood}</ErrorMsg>}
           </InputWrapper>
-          <InputWrapper>
+          <InputWrapper isHidden={data.cep.length !== 9 && true}>
             <Input
               label="Complemento"
               name="addressDetail"
@@ -283,15 +284,16 @@ export default function PersonalInformationForm() {
   );
 }
 
-const StyledTypography = styled(Typography)`
-  margin-bottom: 20px!important;
-`;
-
 const SubmitContainer = styled.div`
   margin-top: 40px!important;
   width: 100%!important;
 
   > button {
     margin-top: 0 !important;
+    width: calc(100% - 150px);
+  }
+
+  @media (max-width: 600px) {
+    text-align: center;
   }
 `;
