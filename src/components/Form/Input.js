@@ -3,15 +3,6 @@ import styled from "styled-components";
 import InputMask from "react-input-mask";
 
 export default function Input({ mask = "", maskChar = "", formatChars, variant = "outlined", value="", onChange = () => 0, ...props }) {
-/*   console.log("***", {
-    mask,
-    maskChar,
-    formatChars,
-    variant,
-    value,
-    onChange,
-    ...props
-  }); */
   return (mask || maskChar) ? (
     <InputMask  mask={mask} maskChar={maskChar} value={value} onChange={onChange} {...(formatChars && { formatChars })}>
       {() => <StyledTextField {...props} variant={variant} />}
