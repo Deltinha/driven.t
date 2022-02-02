@@ -1,8 +1,20 @@
 import styled from "styled-components";
+import { useState, useEffect } from "react";
+import useApi from "../../../hooks/useApi";
+import { toast } from "react-toastify";
 import CertificationSeal from "../../../images/seal-certification.jpg";
 import Signature from "../../../images/signature-drivent.png";
 
 export default function Certificate() {
+  const [userData, setUserData] = useState({});
+  const { certificate } = useApi();
+
+  useEffect(() => {
+    certificate.getUserCertificate()
+      .then((response) => setUserData(response.data))
+      .catch((error) => toast(error.response.data.message));
+  }, []);
+
   return (
     <CertificateBox>
       <TopBox>
@@ -14,8 +26,8 @@ export default function Certificate() {
         </MiddleBoxMsg>
         <MiddleBoxDescription>
           <h2>
-            Certificamos que _____, portador(a) do cpf: _____, participou do
-            evento Drivent de forma _____, com carga horária de _____ horas.
+            Certificamos que {userData?.name}, portador(a) do cpf: {userData?.cpf}, participou do
+            evento Drivent de forma {userData.type?.name.toLowerCase()}, com carga horária de {userData?.hours} horas.
           </h2>
         </MiddleBoxDescription>
       </MiddleBox>
