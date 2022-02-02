@@ -1,4 +1,5 @@
 import { Link, useLocation, useRouteMatch } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import styled from "styled-components";
 
@@ -8,8 +9,8 @@ import {
   FaBed,
   FaCalendarWeek,
   FaCertificate,
+  FaSignOutAlt
 } from "react-icons/fa";
-
 import NavigationButton from "./NavigationButton";
 
 export default function NavigationBar() {
@@ -18,6 +19,17 @@ export default function NavigationBar() {
 
   function isActive(buttonPath) {
     return location.pathname === buttonPath;
+  }
+
+  function logout() {
+    localStorage.clear();
+    window.location.reload();
+  }
+
+  function displayMsg() {
+    toast("Clique para sair", {
+      onClick: () => logout()
+    });
   }
 
   return (
@@ -54,6 +66,13 @@ export default function NavigationBar() {
         <NavigationButton active={isActive(`${match.path}/certificate`)}>
           <FaCertificate />
           <span>Certificado</span>
+        </NavigationButton>
+      </Link>
+
+      <Link onClick={displayMsg}>
+        <NavigationButton>
+          <FaSignOutAlt />
+          <span>Sair</span>
         </NavigationButton>
       </Link>
     </Container>
