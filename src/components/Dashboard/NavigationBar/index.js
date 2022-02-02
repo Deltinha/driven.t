@@ -77,5 +77,6 @@ const Container = styled.div`
     width: 100%;
     height: 80px;
     flex-direction: row;
+    justify-content: space-evenly;
   }
 `;

@@ -31,4 +31,8 @@ const Button = styled.button`
   line-height: 16px;
   text-align: center;
   cursor: pointer;
+
+  @media (max-width: 600px) {
+    margin: 17px auto;
+  }
 `;

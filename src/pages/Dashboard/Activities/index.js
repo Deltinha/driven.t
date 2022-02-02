@@ -12,6 +12,7 @@ import { StyledTypography } from "../../../components/PagesTitle";
 import { formatDate, getWeekdayName, removeDuplicatedObjectsFromArray, sortDays } from "../../../components/Activities/utils/functions";
 import DaysButton from "../../../components/Activities/DaysButton";
 import TicketContext from "../../../contexts/TicketContext";
+import ForbidText from "../../../components/ForbidText";
 
 export default function Activities() {
   const { activity, ticket } = useApi();
@@ -20,6 +21,11 @@ export default function Activities() {
   const [locals, setLocals] = useState([]);
   const [activities, setActivities] = useState([]);
   const { setTicketData } = useContext(TicketContext);
+  const [ticketInfo, setTicketInfo] = useState({});
+
+  useEffect(() => {
+    
+  }, []);
 
   function selectDay(date) {
     if (selectedDay === date) {
@@ -59,6 +65,7 @@ export default function Activities() {
       .then((response) => {
         if (response.data) {
           setTicketData(response.data);
+          setTicketInfo(response.data);
         };
       });
   }, []);
@@ -66,20 +73,21 @@ export default function Activities() {
   return (
     <ActivitiesBox>
       <StyledTypography variant="h4">Escolha de atividades</StyledTypography>
-
-      {!selectedDay 
-        ? <InfoText>Primeiro, filtre pelo dia do evento</InfoText>
-        : ""
+      {
+        Object.keys(ticketInfo).length === 0 || !ticketInfo.isPaid ? <ForbidText>Você precisa ter confirmado pagamento antes de fazer a escolha de atividades</ForbidText> : !ticketInfo.hasHotel ? <ForbidText>Sua modalidade de ingresso não necessita escolher atividade.
+          <br/>Você terá acesso a todas as atividades.</ForbidText> : !selectedDay 
+          ? <InfoText>Primeiro, filtre pelo dia do evento</InfoText>
+          : ""
       }
       
-      <ButtonsDiv>
+      {!selectedDay ? "" : <ButtonsDiv>
         {sortDays(weekdays).map(weekday => (
           <DaysButton
             isSelected={selectedDay === weekday?.date}
             selectDay={selectDay} 
             weekday={weekday} />
         ))}
-      </ButtonsDiv>
+      </ButtonsDiv>}
       
       {!selectedDay 
         ? ""

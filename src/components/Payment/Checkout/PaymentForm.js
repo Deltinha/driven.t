@@ -43,6 +43,7 @@ export default function PaymentForm({ number, setNumber, name, setName, expiry, 
               value={expiry}
               mask={"99/99"}
               label="Validade"
+              placeholder="MM/AA"
               onChange={(event) => setExpiry(event.target.value)}
               required
             />
@@ -68,9 +69,14 @@ export default function PaymentForm({ number, setNumber, name, setName, expiry, 
 
 const CardBox = styled.div`
   margin: 15px;
-  width: 80%;
+  width: 90%;
   display: flex;
   margin-bottom: 50px;
+
+  @media (max-width: 850px) {
+    justify-content: flex-start;
+    flex-direction: column;
+  }
 `;
 
 const CreditCardData = styled.div`
@@ -80,6 +86,10 @@ const CreditCardData = styled.div`
 
   & input {
     height: 12px;
+  }
+
+  @media (max-width: 850px) {
+    width: 100%;
   }
 `;
 

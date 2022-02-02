@@ -14,7 +14,7 @@ export default function Checkout() {
       <InfoText>Pagamento</InfoText>
 
       {ticketData?.isPaid ? (
-        <PaidConfirmation />
+        <PaidConfirmation hasHotel={ticketData.hasHotel} />
       ) : (
         <Payment />
       )}
