@@ -22,7 +22,6 @@ export default function NavigationBar() {
   }
 
   function logout() {
-    displayMsg();
     localStorage.clear();
     window.location.reload();
   }
