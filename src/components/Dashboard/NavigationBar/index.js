@@ -1,4 +1,5 @@
 import { Link, useLocation, useRouteMatch } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 import styled from "styled-components";
 
@@ -8,8 +9,8 @@ import {
   FaBed,
   FaCalendarWeek,
   FaCertificate,
+  FaSignOutAlt
 } from "react-icons/fa";
-
 import NavigationButton from "./NavigationButton";
 
 export default function NavigationBar() {
@@ -18,6 +19,26 @@ export default function NavigationBar() {
 
   function isActive(buttonPath) {
     return location.pathname === buttonPath;
+  }
+
+  function logout() {
+    displayMsg();
+    /* localStorage.clear();
+    window.location.reload(); */
+  }
+
+  function Msg({ closeToast, toastProps }) {
+    return (
+      <div>
+      Lorem
+        <button onClick={() => console.log("sim")}>SIm</button>
+        <button onClick={() => console.log("nao")}>Não</button>
+      </div>
+    );
+  }
+
+  function displayMsg() {
+    toast(<Msg />);
   }
 
   return (
@@ -56,6 +77,15 @@ export default function NavigationBar() {
           <span>Certificado</span>
         </NavigationButton>
       </Link>
+
+      <Link onClick={logout}>
+        <NavigationButton>
+          <FaSignOutAlt />
+          <span>{"/sign-in"}</span>
+        </NavigationButton>
+      </Link>
+
+      <ToastContainer />
     </Container>
   );
 }
