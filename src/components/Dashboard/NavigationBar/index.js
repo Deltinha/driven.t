@@ -1,5 +1,5 @@
 import { Link, useLocation, useRouteMatch } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 import styled from "styled-components";
 
@@ -23,22 +23,14 @@ export default function NavigationBar() {
 
   function logout() {
     displayMsg();
-    /* localStorage.clear();
-    window.location.reload(); */
-  }
-
-  function Msg({ closeToast, toastProps }) {
-    return (
-      <div>
-      Lorem
-        <button onClick={() => console.log("sim")}>SIm</button>
-        <button onClick={() => console.log("nao")}>Não</button>
-      </div>
-    );
+    localStorage.clear();
+    window.location.reload();
   }
 
   function displayMsg() {
-    toast(<Msg />);
+    toast("Clique para sair", {
+      onClick: () => logout()
+    });
   }
 
   return (
@@ -78,14 +70,12 @@ export default function NavigationBar() {
         </NavigationButton>
       </Link>
 
-      <Link onClick={logout}>
+      <Link onClick={displayMsg}>
         <NavigationButton>
           <FaSignOutAlt />
-          <span>{"/sign-in"}</span>
+          <span>Sair</span>
         </NavigationButton>
       </Link>
-
-      <ToastContainer />
     </Container>
   );
 }
