@@ -20,12 +20,7 @@ export default function Activities() {
   const [weekdays, setWeekdays] = useState([]);
   const [locals, setLocals] = useState([]);
   const [activities, setActivities] = useState([]);
-  const { setTicketData } = useContext(TicketContext);
-  const [ticketInfo, setTicketInfo] = useState({});
-
-  useEffect(() => {
-    
-  }, []);
+  const { ticketData, setTicketData } = useContext(TicketContext);
 
   function selectDay(date) {
     if (selectedDay === date) {
@@ -65,7 +60,6 @@ export default function Activities() {
       .then((response) => {
         if (response.data) {
           setTicketData(response.data);
-          setTicketInfo(response.data);
         };
       });
   }, []);
@@ -74,7 +68,7 @@ export default function Activities() {
     <ActivitiesBox>
       <StyledTypography variant="h4">Escolha de atividades</StyledTypography>
       {
-        Object.keys(ticketInfo).length === 0 || !ticketInfo.isPaid ? <ForbidText>Você precisa ter confirmado pagamento antes de fazer a escolha de atividades</ForbidText> : ticketInfo.ticketsTypeId.name === "Online" ? <ForbidText>Sua modalidade de ingresso não necessita escolher atividade.
+        Object.keys(ticketData).length === 0 || !ticketData.isPaid ? <ForbidText>Você precisa ter confirmado pagamento antes de fazer a escolha de atividades</ForbidText> : ticketData.ticketsTypeId.name === "Online" ? <ForbidText>Sua modalidade de ingresso não necessita escolher atividade.
           <br/>Você terá acesso a todas as atividades.</ForbidText> : !selectedDay 
           ? (
             <div><InfoText>Primeiro, filtre pelo dia do evento</InfoText>
@@ -112,7 +106,7 @@ export default function Activities() {
           </>
         )
       }
-      <WarningText>Você só pode se desinscrever de uma atividade até um horário de 12 horas antes da mesma.</WarningText>
+      {!(ticketData.ticketsTypeId?.name === "Online") && (ticketData.activities?.length > 0) && <WarningText>Você só pode se desinscrever de uma atividade até um horário de 12 horas antes da mesma.</WarningText>}
     </ActivitiesBox>
   );
 }
