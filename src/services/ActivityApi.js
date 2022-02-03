@@ -25,4 +25,12 @@ export default class ActivityApi extends AuthenticatedApi {
       }
     });
   }
+
+  signOut(activityId) {
+    return api.post(`/activities/sign-out/${ activityId }`, [], {
+      headers: {
+        ...this.getAuthorizationHeader()
+      }
+    });
+  }
 }

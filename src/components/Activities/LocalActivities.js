@@ -8,10 +8,10 @@ export default function LocalActivities({ activities, laterActivityHour, current
   const [activitiesOfDay, setActivitiesOfDay] = useState([]);
   
   useEffect(() => {
-    getActivitiesOfDay(activities);
+    getActivitiesOfDay();
   }, [currentDay]);
 
-  function getActivitiesOfDay(activities) {
+  function getActivitiesOfDay() {
     setActivitiesOfDay([]);
     const currentActivities = [];
     activities.forEach((activity) => {
@@ -24,7 +24,7 @@ export default function LocalActivities({ activities, laterActivityHour, current
 
   return (
     <ActivitiesList height={(90 / 60) * (laterActivityHour - 9 * 60)}>
-      {activitiesOfDay?.map((activity, index) => 
+      {activitiesOfDay?.map((activity) => 
         <Activity
           key={activity.id}
           activityInfo={activity}
