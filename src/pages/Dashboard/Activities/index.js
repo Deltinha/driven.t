@@ -51,7 +51,7 @@ export default function Activities() {
     activity.getActivitiesLocals()
       .then((response) => {
         setLocals(response.data);
-        
+      
         activity.getActivities()
           .then((res) => {
             setActivities(res.data);
@@ -112,6 +112,7 @@ export default function Activities() {
           </>
         )
       }
+      <WarningText>Você só pode se desinscrever de uma atividade até um horário de 12 horas antes da mesma.</WarningText>
     </ActivitiesBox>
   );
 }
@@ -132,4 +133,10 @@ const InfoText = styled.span`
   font-size: 20px;
   display: block;
   margin-bottom: 20px;
+`;
+
+const WarningText = styled.span`
+  color: #CC6666;
+  display: inline-block;
+  margin: 5px;
 `;
