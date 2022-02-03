@@ -106,7 +106,7 @@ export default function Activities() {
           </>
         )
       }
-      {!(ticketData.ticketsTypeId.name === "Online") && (ticketData.activities.length > 0) && <WarningText>Você só pode se desinscrever de uma atividade até um horário de 12 horas antes da mesma.</WarningText>}
+      {!(ticketData.ticketsTypeId?.name === "Online") && (ticketData.activities?.length > 0) && <WarningText>Você só pode se desinscrever de uma atividade até um horário de 12 horas antes da mesma.</WarningText>}
     </ActivitiesBox>
   );
 }
