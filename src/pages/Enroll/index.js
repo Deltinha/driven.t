@@ -10,6 +10,7 @@ import { Row, Title, Label } from "../../components/Auth";
 import Link from "../../components/Link";
 
 import EventInfoContext from "../../contexts/EventInfoContext";
+import UserContext from "../../contexts/UserContext";
 
 import useApi from "../../hooks/useApi";
 
@@ -21,8 +22,8 @@ export default function Enroll() {
 
   const history = useHistory();
 
-  const api = useApi();
-  
+  const { user, auth } = useApi();
+  const { setUserData } = useContext(UserContext);
   const { eventInfo } = useContext(EventInfoContext);
 
   function submit(event) {
@@ -33,9 +34,20 @@ export default function Enroll() {
       toast("As senhas devem ser iguais!");
       setLoadingEnroll(false);
     } else {
-      api.user.signUp(email, password).then(response => {
-        toast("Inscrito com sucesso! Por favor, faça login.");
-        history.push("/sign-in");
+      user.signUp(email, password).then(response => {
+        auth.signIn(email, password)
+          .then(response => {
+            setUserData(response.data);
+            history.push("/dashboard");
+          })
+          .catch(err => {
+            if (err.response) {
+              toast(err.response.data.message);
+            } else {
+              toast("Não foi possível conectar ao servidor!");
+            }
+            history.push("/sign-in");
+          });
       }).catch(error => {
         if (error.response) {
           toast(error.response.data.message);
