@@ -27,7 +27,7 @@ export default function Certificate() {
         <MiddleBoxDescription>
           <h2>
             Certificamos que {userData?.name}, portador(a) do cpf: {userData?.cpf}, participou do
-            evento Drivent de forma {userData.type?.name.toLowerCase()}, com carga horária de {userData.type?.name === "Online" ? 15 : userData?.hours} horas.
+            evento Drivent de forma {userData.type?.name.toLowerCase()}, com carga horária de 15 horas.
           </h2>
         </MiddleBoxDescription>
       </MiddleBox>

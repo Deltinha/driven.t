@@ -21,7 +21,7 @@ export default function CertificatePage() {
   return (
     <>
       {userData ?
-        (userData.type?.name === "Presencial" && userData?.hours === 0 ?
+        (userData.type?.name === "Presencial" && userData?.activities.length === 0 ?
           <ForbidText>Você precisa se inscrever em alguma atividade!</ForbidText>
           :
           <Certificate userData={userData} />
