@@ -45,8 +45,8 @@ export default function Activity({ activityInfo }) {
           .then((res) => setTicketData(res?.data));
       })
       .catch(err => {
-        toast(err?.response.data.message);
-        setFreeSpots(err?.response.data.object.freeSpots);
+        toast(err.response?.data.message);
+        setFreeSpots(err.response?.data.object.freeSpots);
       });
   }
 
@@ -59,7 +59,7 @@ export default function Activity({ activityInfo }) {
           .then((response) => setTicketData(response?.data));
       })
       .catch(err => {
-        toast(err?.response.data.message);
+        toast(err.response?.data.message);
       });
   }
 
