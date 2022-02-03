@@ -35,10 +35,19 @@ export default function Enroll() {
       setLoadingEnroll(false);
     } else {
       user.signUp(email, password).then(response => {
-        auth.signIn(email, password).then(response => {
-          setUserData(response.data);
-          history.push("/dashboard");
-        });
+        auth.signIn(email, password)
+          .then(response => {
+            setUserData(response.data);
+            history.push("/dashboard");
+          })
+          .catch(err => {
+            if (err.response) {
+              toast(err.response.data.message);
+            } else {
+              toast("Não foi possível conectar ao servidor!");
+            }
+            history.push("/sign-in");
+          });
       }).catch(error => {
         if (error.response) {
           toast(error.response.data.message);
