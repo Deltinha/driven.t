@@ -5,12 +5,13 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import TicketContext from "../../contexts/TicketContext";
 
 import useApi from "../../hooks/useApi";
+import useHover from "../../hooks/useHover";
 import { toast } from "react-toastify";
-import { useContext, useEffect } from "react";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
-export default function Activity({ activityInfo, nextActivityDate }) {
-  const { freeSpots } = activityInfo;
+export default function Activity({ activityInfo, nextActivityDate, getData, getActivitiesOfDay }) {
+  const [hoverRef, isHovered] = useHover();
+  const [ freeSpots, setFreeSpots ] = useState(activityInfo.freeSpots);
   const [isSignedUp, setIsSignedUp] = useState(false);
   const activityId = activityInfo.id;
   const { activity, ticket } = useApi();
@@ -38,12 +39,28 @@ export default function Activity({ activityInfo, nextActivityDate }) {
 
   function signUpToActivity() {
     activity.signUp(activityId)
-      .then((res) => {
+      .then(() => {
         setIsSignedUp(true);
         ticket.getTicketFromUser()
           .then((res) => setTicketData(res?.data));
       })
-      .catch(res => toast(res.response?.data.message));
+      .catch(err => {
+        toast(err?.response.data.message);
+        setFreeSpots(err?.response.data.object.freeSpots);
+      });
+  }
+
+  function signOutFromActivity() {
+    activity.signOut(activityId)
+      .then((res) => {
+        setIsSignedUp(false);
+        setFreeSpots(res.data.freeSpots);
+        ticket.getTicketFromUser()
+          .then((response) => setTicketData(response?.data));
+      })
+      .catch(err => {
+        toast(err?.response.data.message);
+      });
   }
 
   return (
@@ -57,10 +74,21 @@ export default function Activity({ activityInfo, nextActivityDate }) {
         </p>
       </ActivityText>
       <VacancyInfo isSignedUp={isSignedUp}>
-        <ReserveButton freeSpots={freeSpots} isSignedUp={isSignedUp}>
-          {isSignedUp ? <div><BiCheckCircle />
-            <span>Inscrito</span>
-          </div>
+        <ReserveButton freeSpots={freeSpots} isSignedUp={isSignedUp} ref={hoverRef}>
+          {isSignedUp ? 
+            <div onClick={signOutFromActivity}>
+              {isHovered ?
+                <>
+                  <AiOutlineCloseCircle />
+                  <span>Desinscrever</span>
+                </>
+                :
+                <>
+                  <BiCheckCircle />
+                  <span>Inscrito</span>
+                </>
+              }
+            </div>
             :(freeSpots > 0 ?
               (<div onClick={signUpToActivity}>
                 <BiLogIn />
@@ -69,9 +97,10 @@ export default function Activity({ activityInfo, nextActivityDate }) {
                   : <span>{freeSpots} vagas</span>}
               </div>)
               : (
-                <>
+                <div>
                   <AiOutlineCloseCircle />
-                  <span>Esgotado</span></>
+                  <span>Esgotado</span>
+                </div>
               ))}
         </ReserveButton>
       </VacancyInfo>
@@ -108,8 +137,9 @@ const VacancyInfo = styled.div`
 `;
 
 const ReserveButton = styled.div`
-  cursor: ${({ freeSpots }) => freeSpots > 0 ? "pointer" : "default"};
-  color: ${({ freeSpots }) => freeSpots > 0 ? "#078632" : "#CC6666"};
+  width: 60px;
+  cursor: ${({ freeSpots, isSignedUp }) => freeSpots > 0 || isSignedUp ? "pointer" : "default"};
+  color: ${({ freeSpots, isSignedUp }) => freeSpots > 0 || isSignedUp ? "#078632" : "#CC6666"};
 
   svg {
     font-size: 25px;

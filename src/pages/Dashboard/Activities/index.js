@@ -45,7 +45,7 @@ export default function Activities() {
     activity.getActivitiesLocals()
       .then((response) => {
         setLocals(response.data);
-        
+      
         activity.getActivities()
           .then((res) => {
             setActivities(res.data);
