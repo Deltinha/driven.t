@@ -9,7 +9,7 @@ import useHover from "../../hooks/useHover";
 import { toast } from "react-toastify";
 import { useContext, useEffect, useState } from "react";
 
-export default function Activity({ activityInfo, nextActivityDate, getData, getActivitiesOfDay }) {
+export default function Activity({ activityInfo }) {
   const [hoverRef, isHovered] = useHover();
   const [ freeSpots, setFreeSpots ] = useState(activityInfo.freeSpots);
   const [isSignedUp, setIsSignedUp] = useState(false);
