@@ -22,8 +22,6 @@ export default function Activities() {
   const [activities, setActivities] = useState([]);
   const { ticketData, setTicketData } = useContext(TicketContext);
 
-  console.log(ticketData);
-
   function selectDay(date) {
     if (selectedDay === date) {
       setSelectedDay(false);
